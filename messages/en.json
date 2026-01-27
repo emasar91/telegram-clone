@@ -1,0 +1,12 @@
+{
+  "home": {
+    "title": "Hello world"
+  },
+  "header": {
+    "title": "Telegram Clone",
+    "dashboard": "Dashbord",
+    "signIn": "Sign In",
+    "es": "Spanish",
+    "en": "English"
+  }
+}
