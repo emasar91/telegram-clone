@@ -15,7 +15,7 @@ function Header() {
   const t = useTranslations("header")
 
   return (
-    <header className="flex items-center justify-between px-4 h-15 sm:px-6">
+    <header className="flex items-center justify-between px-4  sm:px-6 h-[50px]">
       <Link href="/dashboard" className="font-medium uppercase tracking-widest">
         {t("title")}
       </Link>

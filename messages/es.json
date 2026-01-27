@@ -1,9 +1,10 @@
 {
   "home": {
-    "title": "Hola mundo"
+    "title": "Telegram Clon",
+    "subtitle": "una nueva era de mensajería"
   },
   "header": {
-    "title": "Telegram Clone",
+    "title": "Telegram Clon",
     "dashboard": "Tablero",
     "signIn": "Iniciar Sesión",
     "es": "Español",
