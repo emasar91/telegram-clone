@@ -8,6 +8,10 @@
     "macos": "macOS",
     "pcmacos": "Windows / Mac / Linux",
     "for": "Telegram for",
+    "download": {
+      "title": "Download Telegram for {platform}",
+      "description": "This is a portfolio project, to download telegram for {platform} visit the official telegram website"
+    },
     "ducks": {
       "simple": {
         "title": "Simple",
