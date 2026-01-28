@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { ClerkProvider } from "@clerk/nextjs"
-import ConvexClientProvider from "@/components/ConvexClientProvider"
+import ConvexClientProvider from "@/providers/ConvexClientProvider"
 import IntlProvider from "@/providers/IntlProvider"
 import localFont from "next/font/local"
+import ClerkProviderClient from "@/providers/ClerkProvider"
 
 export const metadata: Metadata = {
   title: "Telegram Clone",
@@ -25,12 +25,9 @@ export default function RootLayout({
     <html lang="en" className={lucida.variable}>
       <body className={`font-sans antialiased`}>
         <IntlProvider>
-          <ClerkProvider
-            signInFallbackRedirectUrl="/dashboard"
-            signUpFallbackRedirectUrl="/dashboard"
-          >
+          <ClerkProviderClient>
             <ConvexClientProvider>{children}</ConvexClientProvider>
-          </ClerkProvider>
+          </ClerkProviderClient>
         </IntlProvider>
       </body>
     </html>
