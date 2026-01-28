@@ -1,6 +1,51 @@
 {
   "home": {
-    "title": "Hello world"
+    "title": "Hello world",
+    "subtitle": "a new era of messaging",
+    "android": "Android",
+    "mac": "IPhone/IPad",
+    "pc": "PC / Linux",
+    "macos": "macOS",
+    "pcmacos": "Windows / Mac / Linux",
+    "for": "Telegram for",
+    "ducks": {
+      "simple": {
+        "title": "Simple",
+        "subtitle": "It's so <bold>simple</bold> that you already know how to use it."
+      },
+      "private": {
+        "title": "Private",
+        "subtitle": "Your messages are strongly <bold>encrypted</bold> and can be self-destructed"
+      },
+      "sync": {
+        "title": "Sync",
+        "subtitle": "Allows you to access your chats from <bold>multiple</bold> devices."
+      },
+      "fast": {
+        "title": "Fast",
+        "subtitle": "Delivers messages <bold>faster</bold> than any other application."
+      },
+      "powerful": {
+        "title": "Powerful",
+        "subtitle": "Has no limits for the <bold>size</bold> of your multimedia and chats."
+      },
+      "open": {
+        "title": "Open",
+        "subtitle": "Has an API and source code <bold>available</bold> to everyone."
+      },
+      "safe": {
+        "title": "Safe",
+        "subtitle": "Keeps your messages <bold>safe</bold> from hacker attacks."
+      },
+      "social": {
+        "title": "Social",
+        "subtitle": "Your groups allow up to <bold>200,000</bold> members."
+      },
+      "expressive": {
+        "title": "Expressive",
+        "subtitle": "Allows you to <bold>personalize</bold> your application completely."
+      }
+    }
   },
   "header": {
     "title": "Telegram Clone",

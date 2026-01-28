@@ -2,6 +2,9 @@ import Header from "@/components/Header"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import TelegramIcon from "@/public/assets/icons/TelegramIcon"
+import VideoAnimate from "@/components/VideoAnimate"
+import PcMacos from "@/components/PcMacos"
+import FeaturesDucks from "@/components/FeaturesDucks"
 export default function Home() {
   const t = useTranslations("home")
 
@@ -19,9 +22,19 @@ export default function Home() {
             className="mt-10"
           />
           <TelegramIcon />
+
           <p className="text-[#8c8c8c] mt-2 text-[20px] leading-[30px]">
             {t("subtitle")}
           </p>
+
+          <div className="flex items-center justify-center sm:flex-row flex-col">
+            <VideoAnimate type="android" />
+            <VideoAnimate type="mac" />
+          </div>
+
+          <PcMacos />
+
+          <FeaturesDucks />
         </div>
       </div>
     </>

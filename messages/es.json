@@ -1,7 +1,51 @@
 {
   "home": {
     "title": "Telegram Clon",
-    "subtitle": "una nueva era de mensajería"
+    "subtitle": "una nueva era de mensajería",
+    "android": "Android",
+    "mac": "IPhone/IPad",
+    "pc": "PC / Linux",
+    "macos": "macOS",
+    "pcmacos": "Windows / Mac / Linux",
+    "for": "Telegram para",
+    "ducks": {
+      "simple": {
+        "title": "Simple",
+        "subtitle": "Es tan <bold>simple</bold> que ya sabes cómo usarlo."
+      },
+      "private": {
+        "title": "Privado",
+        "subtitle": "Sus mensajes están fuertemente <bold>cifrados</bold> y se pueden autodestruir"
+      },
+      "sync": {
+        "title": "Sincronización",
+        "subtitle": "Permite que accedas a tus chats desde <bold>múltiples</bold> dispositivos."
+      },
+      "fast": {
+        "title": "Rápido",
+        "subtitle": "Entrega mensajes más <bold>rápido</bold> que cualquier otra aplicación."
+      },
+      "powerful": {
+        "title": "Potente",
+        "subtitle": "No tiene límites para el <bold>tamaño</bold> de tu multimedia y chats."
+      },
+      "open": {
+        "title": "Abierto",
+        "subtitle": "Tiene una API y un código fuente a <bold>disposición</bold> de todos."
+      },
+      "safe": {
+        "title": "Seguro",
+        "subtitle": "Mantiene tus mensajes a <bold>salvo</bold> de ataques de hackers."
+      },
+      "social": {
+        "title": "Social",
+        "subtitle": "Sus grupos permiten hasta <bold>200.000</bold> miembros."
+      },
+      "expressive": {
+        "title": "Expresivo",
+        "subtitle": "Permite que <bold>personalices</bold> completamente tu aplicación."
+      }
+    }
   },
   "header": {
     "title": "Telegram Clon",
