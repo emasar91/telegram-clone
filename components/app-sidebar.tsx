@@ -16,6 +16,7 @@ import { UserButton } from "@clerk/nextjs"
 import { ChannelList } from "stream-chat-react"
 import { ChannelSort } from "stream-chat"
 import NewChatDialog from "./NewChatDialog"
+import PencilIcon from "@/public/assets/icons/PencilIcon"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser()
@@ -55,32 +56,48 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu className="gap-2">
+      <SidebarContent className="h-full">
+        <SidebarGroup className="flex flex-col flex-1 min-h-0">
+          <SidebarMenu className="flex flex-col flex-1 relative">
+            {/* LISTA / EMPTY STATE */}
+            <div className="flex-1 min-h-0 overflow-hidden">
+              <ChannelList
+                filters={filters}
+                options={options}
+                sort={sort}
+                EmptyStateIndicator={() => (
+                  <div className="flex h-full flex-col items-center justify-center px-4">
+                    <div className="text-6xl mb-6 opacity-20">💬</div>
+                    <h2 className="text-xl font-medium mb-2">Ready to chat?</h2>
+                    <p className="text-sm text-muted-foreground text-center max-w-[200px]">
+                      Your conversation will appear here once you start chatting
+                    </p>
+                  </div>
+                )}
+              />
+            </div>
+
+            {/* FLOATING ACTION BUTTON */}
             <NewChatDialog>
-              <Button className="w-full" variant="outline">
-                New Chat
+              <Button
+                className="
+                  absolute right-4 bottom-4 z-50
+                  w-[56px] h-[56px] p-0
+                  rounded-full bg-[#3390ec]
+
+                  /* MOBILE (default) */
+                  opacity-100 translate-y-0
+
+                  /* DESKTOP (>=640) */
+                  sm:opacity-0 sm:translate-y-6
+                  sm:transition-all sm:duration-200 sm:ease-out
+                  sm:group-hover:opacity-100
+                  sm:group-hover:translate-y-0
+                "
+              >
+                <PencilIcon className="size-6 text-white" />
               </Button>
             </NewChatDialog>
-
-            <ChannelList
-              filters={filters}
-              options={options}
-              sort={sort}
-              EmptyStateIndicator={() => (
-                <div className="flex flex-col items-center justify-center h-full py-12 px-4">
-                  <div className="text-6xl mb-6 opacity-20">💬</div>
-                  <h2 className="text-xl font-medium text-foreground mb-2">
-                    Ready to chat?
-                  </h2>
-                  <p className="text-sm text-muted-foreground text-center leading-relaxed max-w-[200px]">
-                    Your conversation will appear here once you start chatting
-                    with others
-                  </p>
-                </div>
-              )}
-            />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

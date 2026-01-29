@@ -3,42 +3,33 @@
 import UserSyncWrapper from "@/components/UserSyncWrapper"
 import { Chat } from "stream-chat-react"
 import streamClient from "@/lib/stream"
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
-import { Separator } from "@/components/ui/separator"
-import Link from "next/link"
 import "stream-chat-react/dist/css/v2/index.css"
+import Header from "@/components/Header"
+import { useState } from "react"
+import { Sidebar } from "@/components/Sidebar"
 
 function Layout({ children }: { children: React.ReactNode }) {
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+
+  const toggleSidebar = () => setSidebarOpen((prev) => !prev)
+  const closeSidebar = () => setSidebarOpen(false)
   return (
     <UserSyncWrapper>
       <Chat client={streamClient}>
-        <SidebarProvider
-          style={
-            {
-              "--sidebar-width": "19rem",
-            } as React.CSSProperties
-          }
-        >
-          <AppSidebar />
-          <SidebarInset>
-            <header className="flex h-16 shrink-0 items-center gap-2 px-4">
-              <SidebarTrigger className="-ml-1" />
-              <Separator
-                orientation="vertical"
-                className="mr-2 data-[orientation=vertical]:h-4"
-              />
+        <div className="flex h-screen overflow-hidden bg-background">
+          <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
 
-              <Link href="/dashboard">
-                <h1 className="font-medium uppercase tracking-widest">Beam</h1>
-              </Link>
-            </header>
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          {/* Contenido principal */}
+          <div className="flex flex-1 flex-col overflow-hidden">
+            {/* Header */}
+            <Header onToggleSidebar={toggleSidebar} />
+
+            {/* Contenido */}
+            <main className="flex-1 flex overflow-y-auto p-6 justify-center">
               {children}
-            </div>
-          </SidebarInset>
-        </SidebarProvider>
+            </main>
+          </div>
+        </div>
       </Chat>
     </UserSyncWrapper>
   )

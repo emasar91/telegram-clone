@@ -57,5 +57,11 @@
     "signIn": "Iniciar Sesión",
     "es": "Español",
     "en": "English"
+  },
+  "dashboard": {
+    "chatButtons": {
+      "videoCall": "Video llamada",
+      "leave": "Salir del chat"
+    }
   }
 }

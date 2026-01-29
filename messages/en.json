@@ -57,5 +57,11 @@
     "signIn": "Sign In",
     "es": "Spanish",
     "en": "English"
+  },
+  "dashboard": {
+    "chatButtons": {
+      "videoCall": "Video call",
+      "leave": "Leave chat"
+    }
   }
 }

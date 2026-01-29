@@ -11,21 +11,20 @@ import {
   useChatContext,
   Window,
 } from "stream-chat-react"
-import { useSidebar } from "@/components/ui/sidebar"
 import { Button } from "@/components/ui/button"
 import { LogOutIcon, VideoIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 function DashboardPage() {
+  const t = useTranslations("dashboard")
   const { user } = useUser()
   const router = useRouter()
   const { channel, setActiveChannel } = useChatContext()
-  const { setOpen } = useSidebar()
 
   const handleCall = () => {
     if (!channel || !user) return
 
     router.push(`/dashboard/call/${channel.id}`)
-    setOpen(false)
   }
 
   const handleLeaveChat = async () => {
@@ -57,7 +56,7 @@ function DashboardPage() {
               <div className="flex items-center gap-2">
                 <Button variant="outline" onClick={handleCall}>
                   <VideoIcon className="w-4 h-4" />
-                  Video Call
+                  {t("chatButtons.videoCall")}
                 </Button>
 
                 <Button
@@ -66,7 +65,7 @@ function DashboardPage() {
                   onClick={handleLeaveChat}
                 >
                   <LogOutIcon className="w-4 h-4" />
-                  Leave Chat
+                  {t("chatButtons.leave")}
                 </Button>
               </div>
             </div>
