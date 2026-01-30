@@ -5,10 +5,12 @@ export function useCreateNewChat() {
     members,
     createdBy,
     groupName,
+    groupNameDefault,
   }: {
     members: string[]
     createdBy: string
     groupName?: string
+    groupNameDefault?: string
   }) => {
     const isGroupChat = members.length > 2
 
@@ -48,7 +50,7 @@ export function useCreateNewChat() {
       }
 
       if (isGroupChat) {
-        channelData.name = groupName || `Group Chat (${members.length} members)`
+        channelData.name = groupName || groupNameDefault
       }
 
       const channel = streamClient.channel(

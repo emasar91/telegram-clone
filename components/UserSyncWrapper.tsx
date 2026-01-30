@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useState } from "react"
 import { LoadingSpinner } from "./LoadingSpinner"
 import streamClient from "@/lib/stream"
 import { createToken } from "@/actions/createToken"
+import { useTranslations } from "next-intl"
 
 type Props = {
   children: React.ReactNode
@@ -15,6 +16,7 @@ function UserSyncWrapper({ children }: Props) {
   const { user, isLoaded: isUserLoaded } = useUser()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const t = useTranslations("user")
 
   const createOrUpdateUser = useMutation(api.users.upsertUser)
 
@@ -44,7 +46,7 @@ function UserSyncWrapper({ children }: Props) {
           user.fullName ||
           user.firstName ||
           user.emailAddresses[0].emailAddress ||
-          "Unknown User",
+          t("unknown"),
         email: user.emailAddresses[0].emailAddress || "",
         imageUrl: user.imageUrl || "",
       })
@@ -56,7 +58,7 @@ function UserSyncWrapper({ children }: Props) {
             user.fullName ||
             user.firstName ||
             user.emailAddresses[0].emailAddress ||
-            "Unknown User",
+            t("unknown"),
           image: user.imageUrl || "",
         },
         tokenProvider,
@@ -66,6 +68,7 @@ function UserSyncWrapper({ children }: Props) {
     } finally {
       setIsLoading(false)
     }
+    //eslint-disable-next-line
   }, [createOrUpdateUser, user])
 
   const disconnectUser = useCallback(async () => {
@@ -93,7 +96,7 @@ function UserSyncWrapper({ children }: Props) {
     return (
       <LoadingSpinner
         size="lg"
-        message={!isUserLoaded ? "Loading user..." : "Syncing user data..."}
+        message={!isUserLoaded ? t("loadingUser") : t("syncingUserData")}
         className="min-h-screen"
       />
     )
@@ -102,11 +105,12 @@ function UserSyncWrapper({ children }: Props) {
   if (error) {
     return (
       <div className="flex-1 items-center justify-center bg-white px-6">
-        <p className="text-red-500 text-lg font-semibold  mb-2">Sync Error</p>
+        <p className="text-red-500 text-lg font-semibold  mb-2">
+          {t("syncError")}
+        </p>
         <p className="text-gray-600 text-center mb-4">{error}</p>
         <p className="text-gray-500 text-sm text-center">
-          Please try restarting your browser or contact support if the problem
-          persists.
+          {t("tryRestartingBrowser")}
         </p>
       </div>
     )

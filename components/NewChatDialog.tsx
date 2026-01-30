@@ -19,6 +19,7 @@ import { XIcon } from "lucide-react"
 import Image from "next/image"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import { useLocale, useTranslations } from "next-intl"
 
 type Props = {
   children: React.ReactNode
@@ -31,6 +32,8 @@ function NewChatDialog({ children }: Props) {
   const createNewChat = useCreateNewChat()
   const { user } = useUser()
   const { setActiveChannel } = useChatContext()
+  const t = useTranslations("newChatDialog")
+  const locale = useLocale()
 
   const handlerSelectUser = (user: Doc<"users">) => {
     if (!selectedUser.find((u) => u._id === user._id)) {
@@ -60,6 +63,11 @@ function NewChatDialog({ children }: Props) {
       members: [user.id as string, ...selectedUser.map((u) => u.userId)],
       createdBy: user.id as string,
       groupName: isGroupChat ? groupName.trim() || undefined : undefined,
+      groupNameDefault: isGroupChat
+        ? locale === "es"
+          ? `Grupo (${totalMembers} miembros)`
+          : `Group Chat (${totalMembers} members)`
+        : undefined,
     })
 
     setActiveChannel(channel)
@@ -74,21 +82,23 @@ function NewChatDialog({ children }: Props) {
 
       <DialogContent className="sm:max-w-[500px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Start a new Chat</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
 
-          <DialogDescription>
-            Search for user to start a new chat
-          </DialogDescription>
+          <DialogDescription>{t("subtitle")}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
-          <UserSearch onSelectUser={handlerSelectUser} className="w-full" />
+          <UserSearch
+            onSelectUser={handlerSelectUser}
+            className="w-full"
+            placeholder={t("searchPlaceholder")}
+          />
 
           {selectedUser.length > 0 && (
             <div className="space-x-3">
               {" "}
               <h4 className="text-sm font-medium text-foreground">
-                Selected Users ({selectedUser.length})
+                {t("selectedUsers")} ({selectedUser.length})
               </h4>
               <div className="space-y-2 max-h-[200px] overflow-y-auto">
                 {selectedUser.map((user) => (
@@ -130,18 +140,18 @@ function NewChatDialog({ children }: Props) {
                     htmlFor="groupName"
                     className="text-sm font-medium text-foreground"
                   >
-                    Group Name (Optional)
+                    {t("groupName")}
                   </label>
                   <Input
                     id="groupName"
                     type="text"
                     value={groupName}
-                    placeholder="Enter group name"
+                    placeholder={t("enterGroupName")}
                     onChange={(e) => setGroupName(e.target.value)}
                     className="w-full"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Leave empty to use default group name
+                    {t("leaveEmpty")}
                   </p>
                 </div>
               )}
@@ -151,17 +161,18 @@ function NewChatDialog({ children }: Props) {
 
         <DialogFooter>
           <Button variant="outline" onClick={() => setOpen(false)}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             onClick={handleCreateChat}
             disabled={selectedUser.length === 0}
+            className="bg-telegram-blue"
           >
             {selectedUser.length > 1
-              ? `Create Group Chat (${selectedUser.length + 1})`
+              ? t("createGroupChat", { count: selectedUser.length + 1 })
               : selectedUser.length === 1
-                ? `Start Chat`
-                : "Create Chat"}
+                ? t("startChat")
+                : t("createChat")}
           </Button>
         </DialogFooter>
       </DialogContent>

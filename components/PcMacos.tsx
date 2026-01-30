@@ -1,7 +1,7 @@
 "use client"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import { useIsMobile } from "@/hooks/use-mobile"
+import { useIsMobile } from "@/hooks/useIsMobile"
 import CustomModal from "./CustomModal"
 import { useState } from "react"
 
@@ -75,14 +75,16 @@ function PcMacos() {
             height={160}
             className="block sm:hidden"
           />
-          <div className="group w-[53%] text-center cursor-pointer flex-col h-[215px] justify-end mt-[-165px] flex sm:hidden">
+          <div
+            onClick={() => {
+              setPlatform(t("pc") + " / " + t("macos"))
+              setOpenModal(true)
+            }}
+            className="group w-[53%] text-center cursor-pointer flex-col h-[215px] justify-end mt-[-165px] flex sm:hidden"
+          >
             <div className="flex items-center justify-center gap-2">
               <p className="mt-2 font-lucida leading-[18px] text-[15px] text-center text-telegram-blue">
-                {t("for")}
-              </p>
-
-              <p className="mt-2 font-lucida leading-[18px] text-[15px] text-center text-telegram-blue font-bold">
-                {t("pcmacos")}
+                {t("for")} <span className="font-bold">{t("pcmacos")}</span>
               </p>
             </div>
 

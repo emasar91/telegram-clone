@@ -1,8 +1,7 @@
 "use client"
 
-import { InlineSpinner } from "@/components/LoadingSpinner"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 import StatusCard from "@/components/StatusCard"
-import { useSidebar } from "@/components/ui/sidebar"
 import {
   CallControls,
   CallingState,
@@ -12,6 +11,7 @@ import {
 import { Check, Copy } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useTranslations } from "next-intl"
 
 function CallPage() {
   const { useCallCallingState, useParticipants } = useCallStateHooks()
@@ -19,10 +19,9 @@ function CallPage() {
   const participants = useParticipants()
   const router = useRouter()
   const [copied, setCopied] = useState(false)
-  const { setOpen } = useSidebar()
+  const t = useTranslations("call")
 
   const handleLeaveCall = () => {
-    setOpen(true)
     router.push("/dashboard")
   }
 
@@ -38,23 +37,39 @@ function CallPage() {
     }
   }
 
+  if (callingState === CallingState.LEFT) {
+    return (
+      <div className="flex items-center justify-center h-full ">
+        <StatusCard
+          title={t("callLeaving")}
+          description="You are leaving the call"
+          className="bg-gray-50 rounded-lg pb-4 text-black"
+        >
+          <LoadingSpinner size="lg" className="mb-0" />
+        </StatusCard>
+      </div>
+    )
+  }
+
   if (callingState === CallingState.JOINING) {
     return (
-      <StatusCard
-        title="Joining call..."
-        description="Please wait while we join the call"
-        className="bg-gray-50 rounded-lg"
-      >
-        <InlineSpinner size="lg" />
-      </StatusCard>
+      <div className="flex items-center justify-center h-full ">
+        <StatusCard
+          title={t("joiningCall")}
+          description="Please wait while we join the call"
+          className="bg-gray-50 rounded-lg pb-4 text-black"
+        >
+          <LoadingSpinner size="lg" className="mb-0" />
+        </StatusCard>
+      </div>
     )
   }
 
   if (callingState === CallingState.RECONNECTING) {
     return (
       <StatusCard
-        title="Reconnecting..."
-        description="Connection lost, reconnecting..."
+        title={t("reconnecting")}
+        description={t("connectionLost")}
         className="bg-yellow-50 rounded-lg border-yellow-200"
       >
         <div className="animate-pulse rounded-full h-12 w-12 bg-yellow-400 mx-auto" />
@@ -65,8 +80,8 @@ function CallPage() {
   if (callingState !== CallingState.JOINED) {
     return (
       <StatusCard
-        title="Loading call..."
-        description={`Status: ${callingState}`}
+        title={t("loadingCall")}
+        description={`${t("status")}: ${callingState}`}
         className="bg-gray-50 rounded-lg"
       >
         <div className="animate-pulse rounded-full h-12 w-12 bg-gray-400 mx-auto" />
@@ -94,11 +109,9 @@ function CallPage() {
 
               <div className="space-y-2">
                 <h2 className="text-2xl font-bold text-gray-900">
-                  Waiting for others to join...
+                  {t("waitingForOthers")}
                 </h2>
-                <p className="text-gray-600">
-                  Share this link with others to join the call.
-                </p>
+                <p className="text-gray-600">{t("shareLink")}</p>
               </div>
 
               <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -114,21 +127,19 @@ function CallPage() {
                     {copied ? (
                       <>
                         <Check className="w-4 h-4" />
-                        Copied!
+                        {t("copied")}
                       </>
                     ) : (
                       <>
                         <Copy className="w-4 h-4" />
-                        Copy Link
+                        {t("copyLink")}
                       </>
                     )}
                   </button>
                 </div>
               </div>
 
-              <p className="text-sm text-gray-600">
-                Others will be able to join using this link
-              </p>
+              <p className="text-sm text-gray-600">{t("othersWillJoin")}</p>
             </div>
           </div>
         </div>

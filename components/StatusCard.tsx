@@ -18,7 +18,10 @@ function StatusCard({
 }: Props) {
   return (
     <div
-      className={cn("flex items-center justify-center minh-[400px]", className)}
+      className={cn(
+        "flex items-center justify-center minh-[400px] w-full",
+        className,
+      )}
     >
       <div className="text-center space-y-4 max-w-md w-full mx-4">
         {children}

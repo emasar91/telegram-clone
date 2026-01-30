@@ -127,3 +127,144 @@
 .font-lucida {
   font-family: "Lucida Sans Unicode", var(--font-lucida), Arial, sans-serif;
 }
+
+.str-chat {
+  --str-chat__background-color: transparent !important;
+  --str-chat__secondary-background-color: transparent !important;
+}
+
+.str-chat__message-textarea-container {
+  background-color: white !important;
+  border-radius: 10px !important;
+}
+
+.str-chat__empty-channel {
+  display: none !important;
+}
+
+.str-chat__file-input-label svg path {
+  fill: #fafafa !important;
+}
+
+.str-chat__file-input-label {
+  background-color: #5392ff !important;
+  border-radius: 50% !important;
+  padding: 6px !important;
+}
+
+.str-chat__message-metadata {
+  background-color: white !important;
+  padding: 4px !important;
+  border-radius: 6px 6px 6px 6px !important;
+}
+
+.str-chat__date-separator-date {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+  padding: 2px 20px !important;
+  border-radius: 10px !important;
+  color: white !important;
+}
+
+.str-chat__date-separator .str-chat__date-separator-line {
+  display: none !important;
+}
+
+.str-chat__date-separator {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.str-chat__message
+  .str-chat__message-options
+  .str-chat__message-actions-box-button
+  .str-chat__message-action-icon
+  path,
+.str-chat__message
+  .str-chat__message-options
+  .str-chat__message-reply-in-thread-button
+  .str-chat__message-action-icon
+  path,
+.str-chat__message
+  .str-chat__message-options
+  .str-chat__message-reactions-button
+  .str-chat__message-action-icon
+  path {
+  fill: black !important;
+}
+
+.str-chat__message-actions-box {
+  background-color: white !important;
+}
+
+.str-chat__reaction-selector .str-chat__message-reactions-options {
+  background-color: white !important;
+}
+
+.str-chat__modal .str-chat__modal__inner {
+  background-color: white !important;
+  width: 90% !important;
+  max-width: 864px !important;
+}
+
+.str-chat__edit-message-form .str-chat__edit-message-form-options {
+  gap: 10px !important;
+}
+
+.str-chat__message-input
+  .str-chat__quoted-message-preview-header
+  .str-chat__quoted-message-remove
+  svg {
+  background-color: #ff3742 !important;
+  border-radius: 20px !important;
+  padding: 2px !important;
+}
+
+.str-chat__message-input
+  .str-chat__quoted-message-preview-header
+  .str-chat__quoted-message-remove
+  svg
+  path {
+  fill: white !important;
+}
+
+.str-chat__message .str-chat__message--deleted-inner {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+  color: white !important;
+}
+
+.str-chat__thread .str-chat__main-panel-inner {
+  background-color: white !important;
+}
+
+.str-chat__thread-container {
+  background-color: white !important;
+}
+
+.str-chat__message .str-chat__message-replies-count-button-wrapper button {
+  color: #0509b9 !important;
+}
+
+.str-chat__channel-preview--active,
+.str-chat__channel-preview-messenger--active {
+  background-color: #3390ec !important;
+  color: white !important;
+}
+
+.str-chat__channel-preview-container
+  .str-chat__channel-preview__action-buttons
+  .str-chat__channel-preview__action-button
+  .str-chat__channel-preview__action-button
+  .str-chat__channel-preview__action-button--pin
+  svg
+  path {
+  fill: white !important;
+}
+
+.str-video {
+  background-color: #f9fafb !important;
+  width: 100%;
+}
+
+.str-video .text-white {
+  height: 100dvh !important;
+}

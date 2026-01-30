@@ -10,7 +10,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher"
 import { Separator } from "@/components/ui/separator"
 import { PanelLeft } from "lucide-react"
 
-function Header({ onToggleSidebar }: { onToggleSidebar: () => void }) {
+function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
   const pathname = usePathname()
   const isDashboard = pathname.startsWith("/dashboard")
 

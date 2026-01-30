@@ -1,4 +1,25 @@
 {
+  "sidebar": {
+    "welcome": "WELCOME BACK",
+    "ready": "Ready to chat?",
+    "conversation": "Your conversation will appear here once you start chatting"
+  },
+  "newChatDialog": {
+    "title": "Start a new chat",
+    "subtitle": "Search user to start a new chat",
+    "selectedUsers": "Selected",
+    "groupName": "Group name (Optional)",
+    "enterGroupName": "Enter group name",
+    "create": "Create",
+    "cancel": "Cancel",
+    "leaveEmpty": "Leave empty to use default name",
+    "createChat": "Create chat",
+    "createGroupChat": "Create group chat",
+    "startChat": "Start chat",
+    "searchPlaceholder": "Search user to start a new chat",
+    "searchingForUsers": "Searching for users...",
+    "userNotFound": "No users found matching"
+  },
   "home": {
     "title": "Hello world",
     "subtitle": "a new era of messaging",
@@ -6,7 +27,7 @@
     "mac": "IPhone/IPad",
     "pc": "PC / Linux",
     "macos": "macOS",
-    "pcmacos": "Windows / Mac / Linux",
+    "pcmacos": "Windows / Mac",
     "for": "Telegram for",
     "download": {
       "title": "Download Telegram for {platform}",
@@ -59,9 +80,38 @@
     "en": "English"
   },
   "dashboard": {
+    "noChatSelected": "No chat selected",
+    "selectChat": "Select a chat from the sidebar to start messaging",
     "chatButtons": {
       "videoCall": "Video call",
-      "leave": "Leave chat"
+      "leave": "Leave chat",
+      "confirm": "Leave chat",
+      "cancel": "Cancel"
     }
+  },
+  "call": {
+    "initializingClient": "Initializing client...",
+    "settingUpCallEnvironment": "Setting up call environment...",
+    "joiningCall": "Joining call...",
+    "loadingCall": "Loading call...",
+    "reconnecting": "Reconnecting...",
+    "connectionLost": "Connection lost. Reconnecting...",
+    "callError": "Call error",
+    "retry": "Retry",
+    "callId": "Call ID",
+    "callLeaving": "Leaving call",
+    "status": "Status",
+    "waitingForOthers": "Waiting for others...",
+    "shareLink": "Share this link with others to join the call.",
+    "copyLink": "Copy link",
+    "copied": "Link copied!",
+    "othersWillJoin": "Others will be able to join using this link"
+  },
+  "user": {
+    "unknown": "Unknown user",
+    "loadingUser": "Loading user...",
+    "syncingUserData": "Syncing user data...",
+    "syncError": "Error syncing user data",
+    "tryRestartingBrowser": "Please try restarting your browser or contact support if the issue persists"
   }
 }

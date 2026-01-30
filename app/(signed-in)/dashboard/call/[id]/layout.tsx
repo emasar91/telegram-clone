@@ -15,9 +15,10 @@ import { createToken } from "@/actions/createToken"
 import StatusCard from "@/components/StatusCard"
 import { Button } from "@/components/ui/button"
 import { AlertTriangle, Video } from "lucide-react"
-import { InlineSpinner } from "@/components/LoadingSpinner"
+import { LoadingSpinner } from "@/components/LoadingSpinner"
 
 import "@stream-io/video-react-sdk/dist/css/styles.css"
+import { useTranslations } from "next-intl"
 
 type Props = {
   children: React.ReactNode
@@ -33,6 +34,8 @@ function Layout({ children }: Props) {
   const [call, setCall] = useState<Call | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [client, setClient] = useState<StreamVideoClient | null>(null)
+
+  const t = useTranslations("call")
 
   const streamUser = useMemo(() => {
     if (!user?.id) return null
@@ -81,8 +84,6 @@ function Layout({ children }: Props) {
 
     const streamCall = client.call("default", id as string)
     const joinCall = async () => {
-      // const devices = await navigator.mediaDevices.enumerateDevices()
-      // console.log("🚀 ~ joinCall ~ devices:", devices)
       try {
         await streamCall.camera.disable()
         await streamCall.microphone.disable()
@@ -110,7 +111,7 @@ function Layout({ children }: Props) {
   if (error) {
     return (
       <StatusCard
-        title="Call Error"
+        title={t("callError")}
         description={error}
         className="min-h-screen bg-red-500"
         action={
@@ -118,7 +119,7 @@ function Layout({ children }: Props) {
             onClick={() => window.location.reload()}
             className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
           >
-            Retry
+            {t("retry")}
           </Button>
         }
       >
@@ -132,17 +133,17 @@ function Layout({ children }: Props) {
   if (!client) {
     return (
       <StatusCard
-        title="Initializing client..."
-        description="Setting up your call environment..."
+        title={t("initializingClient")}
+        description={t("settingUpCallEnvironment")}
         className="min-h-screen bg-blue-50"
       >
-        <InlineSpinner size="lg" />
+        <LoadingSpinner size="lg" />
       </StatusCard>
     )
   }
   if (!call) {
     return (
-      <StatusCard title="Joining call..." className="min-h-screen bg-green-50">
+      <StatusCard title={t("joiningCall")} className="min-h-screen bg-green-50">
         <div className="animate-bounce h16 w-16 mx-auto">
           <div className="w-16 h-16 bg-green-200 rounded-full flex items-center justify-center">
             <Video className="w-8 h-8 text-green-600" />
@@ -150,7 +151,7 @@ function Layout({ children }: Props) {
         </div>
 
         <div className="text-green-600 font-mono text-sm bg-green-100 px-3 py-1 rounded-full inline-block">
-          Call ID:{id}
+          {t("callId")} :{id}
         </div>
       </StatusCard>
     )

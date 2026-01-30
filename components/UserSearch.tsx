@@ -9,6 +9,7 @@ import { Mail, Search, UserIcon, X } from "lucide-react"
 import { Button } from "./ui/button"
 import { InlineSpinner } from "./LoadingSpinner"
 import Image from "next/image"
+import { useTranslations } from "next-intl"
 
 type Props = {
   onSelectUser: (user: Doc<"users">) => void
@@ -16,17 +17,15 @@ type Props = {
   placeholder?: string
 }
 
-function UserSearch({
-  onSelectUser,
-  className,
-  placeholder = "Search for user by name or email",
-}: Props) {
+function UserSearch({ onSelectUser, className, placeholder }: Props) {
   const { searchTerm, setSearchTerm, searchResults, isLoading } =
     useUserSearch()
 
   const { user } = useUser()
 
   const filteredResults = searchResults.filter((u) => u.userId !== user?.id)
+
+  const t = useTranslations("newChatDialog")
 
   const handleSelectUser = (user: (typeof searchResults)[0]) => {
     onSelectUser?.(user)
@@ -65,13 +64,15 @@ function UserSearch({
               <div className="flex items-center justify-center space-x-2">
                 <InlineSpinner size="sm" />
 
-                <span>Searching for users...</span>
+                <span>{t("searchingForUsers")}</span>
               </div>
             </div>
           ) : filteredResults.length === 0 ? (
             <div className="p-4 text-center text-muted-foreground">
               <UserIcon className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p>No users found matching &quot;{searchTerm}&quot;</p>
+              <p>
+                {t("userNotFound")} &quot;{searchTerm}&quot;
+              </p>
             </div>
           ) : (
             <div className="py-2">

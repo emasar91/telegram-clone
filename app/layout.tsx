@@ -4,6 +4,7 @@ import ConvexClientProvider from "@/providers/ConvexClientProvider"
 import IntlProvider from "@/providers/IntlProvider"
 import localFont from "next/font/local"
 import ClerkProviderClient from "@/providers/ClerkProvider"
+import { SidebarProvider } from "@/providers/SidebarProvider"
 
 export const metadata: Metadata = {
   title: "Telegram Clone",
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body className={`font-sans antialiased`}>
         <IntlProvider>
           <ClerkProviderClient>
-            <ConvexClientProvider>{children}</ConvexClientProvider>
+            <ConvexClientProvider>
+              <SidebarProvider>{children}</SidebarProvider>
+            </ConvexClientProvider>
           </ClerkProviderClient>
         </IntlProvider>
       </body>

@@ -8,14 +8,13 @@ import { ChannelList } from "stream-chat-react"
 import { ChannelSort } from "stream-chat"
 import NewChatDialog from "./NewChatDialog"
 import { Button } from "./ui/button"
+import { useTranslations } from "next-intl"
+import { useSidebar } from "@/providers/SidebarProvider"
 
-interface SidebarProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
-export function Sidebar({ isOpen, onClose }: SidebarProps) {
+export function Sidebar() {
   const { user } = useUser()
+  const t = useTranslations("sidebar")
+  const { openSidebar, setOpenSidebar } = useSidebar()
 
   const filters = {
     members: { $in: [user?.id as string] },
@@ -36,35 +35,35 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Overlay para mobile */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 sm:hidden",
-          isOpen ? "opacity-100" : "pointer-events-none opacity-0",
+          "fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 sm:hidden ",
+          openSidebar ? "opacity-100" : "pointer-events-none opacity-0",
         )}
-        onClick={onClose}
+        onClick={() => setOpenSidebar(false)}
       />
 
       {/* Contenedor del Sidebar */}
       <aside
         className={cn(
-          "fixed left-0 top-0 z-50 h-dvh transition-all duration-300 ease-in-out bg-white border-r overflow-hidden flex flex-col",
+          "fixed left-0 top-0 z-50 h-dvh transition-all duration-300 ease-in-out border-r overflow-hidden flex flex-col",
           // Desktop: Controlamos el margen izquierdo para que el contenido de la derecha se desplace
           "sm:relative sm:z-0",
-          isOpen
+          openSidebar
             ? "translate-x-0 w-[350px] sm:ml-0"
             : "-translate-x-full w-[350px] sm:ml-[-350px] sm:translate-x-0 sm:border-r-0",
         )}
       >
         {/* Contenido interno con ancho FIJO para que NO se deforme al cerrar */}
-        <div className="w-[350px] flex flex-col h-full shrink-0 bg-[#fafafa]">
+        <div className="w-[350px] flex flex-col h-full shrink-0 bg-t bg-[#fafafa]! ">
           <div className="flex h-[72px] shrink-0 items-center justify-between p-4">
             <div className="flex flex-col overflow-hidden">
               <span className="text-[10px] uppercase font-bold text-muted-foreground">
-                Welcome back
+                {t("welcome")}
               </span>
               <span className="text-sm font-semibold truncate">
                 {user?.fullName || "User"}
               </span>
             </div>
-            <UserButton afterSignOutUrl="/sign-in" />
+            <UserButton />
           </div>
 
           <Separator className="shrink-0" />
@@ -77,9 +76,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               EmptyStateIndicator={() => (
                 <div className="flex h-full flex-col items-center justify-center px-4 bg-[#fafafa]">
                   <div className="text-6xl mb-6 opacity-20">💬</div>
-                  <h2 className="text-xl font-medium mb-2">Ready to chat?</h2>
+                  <h2 className="text-xl font-medium mb-2">{t("ready")}</h2>
                   <p className="text-sm text-muted-foreground text-center max-w-[200px]">
-                    Your conversation will appear here once you start chatting
+                    {t("conversation")}
                   </p>
                 </div>
               )}

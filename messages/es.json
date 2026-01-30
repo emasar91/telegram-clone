@@ -1,4 +1,25 @@
 {
+  "sidebar": {
+    "welcome": "BIENVENIDO DE NUEVO",
+    "ready": "Listo para chatear?",
+    "conversation": "Tu conversación aparecerá aquí una vez que comiences a chatear"
+  },
+  "newChatDialog": {
+    "title": "Empezar un nuevo chat",
+    "subtitle": "Buscar usuario para iniciar un nuevo chat",
+    "selectedUsers": "Seleccionados",
+    "groupName": "Nombre del grupo (Opcional)",
+    "enterGroupName": "Introduce el nombre del grupo",
+    "create": "Crear",
+    "cancel": "Cancelar",
+    "leaveEmpty": "Deja vacío para usar el nombre por defecto",
+    "createChat": "Crear chat",
+    "createGroupChat": "Crear chat de grupo",
+    "startChat": "Iniciar chat",
+    "searchPlaceholder": "Buscar usuario para iniciar un nuevo chat",
+    "searchingForUsers": "Buscando usuarios...",
+    "userNotFound": "No se encontraron usuarios que coincidan"
+  },
   "home": {
     "title": "Telegram Clon",
     "subtitle": "una nueva era de mensajería",
@@ -6,7 +27,7 @@
     "mac": "IPhone/IPad",
     "pc": "PC / Linux",
     "macos": "macOS",
-    "pcmacos": "Windows / Mac / Linux",
+    "pcmacos": "Windows / Mac",
     "for": "Telegram para",
     "download": {
       "title": "Descargar Telegram para {platform}",
@@ -59,9 +80,38 @@
     "en": "English"
   },
   "dashboard": {
+    "noChatSelected": "No hay chat seleccionado",
+    "selectChat": "Selecciona un chat de la barra lateral para comenzar a enviar mensajes",
     "chatButtons": {
       "videoCall": "Video llamada",
-      "leave": "Salir del chat"
+      "leave": "Salir del chat",
+      "confirm": "Salir del chat",
+      "cancel": "Cancelar"
     }
+  },
+  "call": {
+    "initializingClient": "Inicializando cliente...",
+    "settingUpCallEnvironment": "Configurando entorno de llamada...",
+    "joiningCall": "Uniendo a la llamada...",
+    "loadingCall": "Cargando llamada...",
+    "reconnecting": "Reconectando...",
+    "connectionLost": "Conexión perdida...",
+    "callError": "Error en la llamada",
+    "retry": "Reintentar",
+    "callId": "ID de llamada",
+    "callLeaving": "Saliendo de la llamada",
+    "status": "Estado",
+    "waitingForOthers": "Esperando a otros...",
+    "shareLink": "Comparte este enlace con otros para unirte a la llamada.",
+    "copyLink": "Copiar enlace",
+    "copied": "¡Enlace copiado!",
+    "othersWillJoin": "Otros podrán unirse usando este enlace"
+  },
+  "user": {
+    "unknown": "Usuario Desconocido",
+    "loadingUser": "Cargando usuario...",
+    "syncingUserData": "Sincronizando datos del usuario...",
+    "syncError": "Error al sincronizar datos del usuario",
+    "tryRestartingBrowser": "Por favor, intenta reiniciar tu navegador o contacta al soporte si el problema persiste"
   }
 }
