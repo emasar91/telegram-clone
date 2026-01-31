@@ -7,13 +7,10 @@ import ClerkProviderClient from "@/providers/ClerkProvider"
 import { SidebarProvider } from "@/providers/SidebarProvider"
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://emasar-telegram-clone.vercel.app"), // Reemplaza con tu URL real (Vercel, etc.)
+  metadataBase: new URL("https://emasar-telegram-clone.vercel.app"),
   title: "Telegram Clone",
   description:
     "A Telegram clone with video call feature and more. Created by Emanuel Sarco",
-  icons: {
-    icon: "/assets/images/telegram-icon.png",
-  },
   openGraph: {
     title: "Telegram Clone",
     description:
@@ -27,6 +24,8 @@ export const metadata: Metadata = {
         alt: "Telegram Clone",
       },
     ],
+    locale: "es_AR",
+    type: "website",
   },
 }
 
