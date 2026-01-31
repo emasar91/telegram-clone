@@ -19,7 +19,7 @@ function StatusCard({
   return (
     <div
       className={cn(
-        "flex items-center justify-center minh-[400px] w-full",
+        "flex items-center justify-center min-h-[400px] w-full",
         className,
       )}
     >

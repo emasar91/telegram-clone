@@ -16,9 +16,9 @@ import StatusCard from "@/components/StatusCard"
 import { Button } from "@/components/ui/button"
 import { AlertTriangle, Video } from "lucide-react"
 import { LoadingSpinner } from "@/components/LoadingSpinner"
-
 import "@stream-io/video-react-sdk/dist/css/styles.css"
 import { useTranslations } from "next-intl"
+import { useSidebar } from "@/providers/SidebarProvider"
 
 type Props = {
   children: React.ReactNode
@@ -34,6 +34,7 @@ function Layout({ children }: Props) {
   const [call, setCall] = useState<Call | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [client, setClient] = useState<StreamVideoClient | null>(null)
+  const { setOpenSidebar } = useSidebar()
 
   const t = useTranslations("call")
 
@@ -109,11 +110,12 @@ function Layout({ children }: Props) {
   }, [id, client])
 
   if (error) {
+    setOpenSidebar(false)
     return (
       <StatusCard
         title={t("callError")}
         description={error}
-        className="min-h-screen bg-red-500"
+        className="bg-red-500"
         action={
           <Button
             onClick={() => window.location.reload()}
@@ -131,19 +133,21 @@ function Layout({ children }: Props) {
   }
 
   if (!client) {
+    setOpenSidebar(false)
     return (
       <StatusCard
         title={t("initializingClient")}
         description={t("settingUpCallEnvironment")}
-        className="min-h-screen bg-blue-50"
+        className=" bg-blue-50"
       >
         <LoadingSpinner size="lg" />
       </StatusCard>
     )
   }
   if (!call) {
+    setOpenSidebar(false)
     return (
-      <StatusCard title={t("joiningCall")} className="min-h-screen bg-green-50">
+      <StatusCard title={t("joiningCall")} className=" bg-green-50">
         <div className="animate-bounce h16 w-16 mx-auto">
           <div className="w-16 h-16 bg-green-200 rounded-full flex items-center justify-center">
             <Video className="w-8 h-8 text-green-600" />
