@@ -5,6 +5,17 @@ const isAutenticatedRoute = createRouteMatcher(["/dashboard(.*)"])
 const isRootRoute = createRouteMatcher(["/"])
 
 export default clerkMiddleware(async (auth, req) => {
+  const userAgent = req.headers.get("user-agent") || ""
+
+  const isBot =
+    userAgent.includes("WhatsApp") ||
+    userAgent.includes("facebookexternalhit") ||
+    userAgent.includes("Facebot")
+
+  if (isBot) {
+    return NextResponse.next()
+  }
+
   const { userId } = await auth()
 
   if (userId && isRootRoute(req)) {

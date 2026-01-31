@@ -62,7 +62,7 @@ export function Sidebar() {
                 <div className="flex items-center gap-2">
                   <Button
                     variant="ghost"
-                    className="p-0!"
+                    className="p-0! cursor-pointer"
                     onClick={() => setOpenSidebar(false)}
                   >
                     <PanelLeftClose className="size-6" />
@@ -108,7 +108,7 @@ export function Sidebar() {
               <NewChatDialog>
                 <Button
                   className={cn(
-                    "h-14 w-14 rounded-full bg-[#3390ec] shadow-xl transition-all duration-300",
+                    "h-14 w-14 rounded-full bg-[#3390ec] shadow-xl transition-all duration-300 cursor-pointer",
                     "scale-100 opacity-100", // Mobile
                     // Desktop: Solo aparece con hover en el sidebar
                     "sm:scale-0 sm:opacity-0 group-hover:scale-100 group-hover:opacity-100",
