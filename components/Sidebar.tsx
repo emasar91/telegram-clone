@@ -1,6 +1,6 @@
 "use client"
 
-import { PencilIcon } from "lucide-react"
+import { PanelLeftClose, PencilIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { UserButton, useUser } from "@clerk/nextjs"
 import { Separator } from "./ui/separator"
@@ -10,11 +10,13 @@ import NewChatDialog from "./NewChatDialog"
 import { Button } from "./ui/button"
 import { useTranslations } from "next-intl"
 import { useSidebar } from "@/providers/SidebarProvider"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 export function Sidebar() {
   const { user } = useUser()
   const t = useTranslations("sidebar")
   const { openSidebar, setOpenSidebar } = useSidebar()
+  const isMobile = useIsMobile()
 
   const filters = {
     members: { $in: [user?.id as string] },
@@ -55,13 +57,30 @@ export function Sidebar() {
         {/* Contenido interno con ancho FIJO para que NO se deforme al cerrar */}
         <div className="w-[350px] flex flex-col h-full shrink-0 bg-t bg-[#fafafa]! ">
           <div className="flex h-[72px] shrink-0 items-center justify-between p-4">
-            <div className="flex flex-col overflow-hidden">
-              <span className="text-[10px] uppercase font-bold text-muted-foreground">
-                {t("welcome")}
-              </span>
-              <span className="text-sm font-semibold truncate">
-                {user?.fullName || "User"}
-              </span>
+            <div className="flex items-center gap-2">
+              {isMobile && (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    className="p-0!"
+                    onClick={() => setOpenSidebar(false)}
+                  >
+                    <PanelLeftClose className="size-6" />
+                  </Button>
+                  <Separator
+                    orientation="vertical"
+                    className="mr-2 data-[orientation=vertical]:h-6"
+                  />
+                </div>
+              )}
+              <div className="flex flex-col overflow-hidden">
+                <span className="text-[10px] uppercase font-bold text-muted-foreground">
+                  {t("welcome")}
+                </span>
+                <span className="text-sm font-semibold truncate">
+                  {user?.fullName || "User"}
+                </span>
+              </div>
             </div>
             <UserButton />
           </div>
