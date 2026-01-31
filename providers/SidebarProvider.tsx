@@ -13,7 +13,7 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 
 // 3. Crear el Provider
 export const SidebarProvider = ({ children }: { children: ReactNode }) => {
-  const [openSidebar, setOpenSidebar] = useState(false)
+  const [openSidebar, setOpenSidebar] = useState(true)
 
   return (
     <SidebarContext.Provider value={{ openSidebar, setOpenSidebar }}>
