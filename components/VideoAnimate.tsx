@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
+import { cn } from "@/lib/utils"
 import dynamic from "next/dynamic"
 
 const CustomModal = dynamic(() => import("@/components/CustomModal"), {
@@ -50,15 +51,19 @@ export default function VideoHoverCard({ type }: { type: string }) {
     >
       <div
         onClick={handleModal}
-        className={`relative ${type === "android" ? "h-[240px] w-[192px]" : "h-[240px] w-[304px]"} overflow-hidden rounded-xl cursor-pointer`}
+        className={cn(
+          "relative overflow-hidden rounded-xl cursor-pointer shadow-md transition-all duration-300 hover:shadow-xl",
+          type === "android" ? "h-[240px] w-[192px]" : "h-[240px] w-[304px]",
+        )}
       >
         <video
           ref={videoRef}
           src={`/assets/videos/${type}.mp4`}
           muted
           playsInline
-          className="absolute transition-opacity hover:opacity-100"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500"
         />
+        <div className="absolute inset-0 bg-black/0 transition-colors duration-300" />
       </div>
       <div
         onClick={handleModal}

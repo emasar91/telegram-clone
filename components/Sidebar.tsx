@@ -1,6 +1,6 @@
 "use client"
 
-import { PanelLeftClose, PencilIcon } from "lucide-react"
+import { PanelLeftClose, PencilIcon, MessageSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { UserButton, useUser } from "@clerk/nextjs"
 import { Separator } from "./ui/separator"
@@ -18,7 +18,9 @@ const NewChatDialog = dynamic(() => import("./NewChatDialog"), { ssr: false })
 // Hoist static EmptyStateIndicator component to avoid re-creation
 const EmptyStateIndicator = ({ text }: { text: string }) => (
   <div className="flex h-full flex-col items-center justify-center px-4 bg-[#fafafa]">
-    <div className="text-6xl mb-6 opacity-20">💬</div>
+    <div className="mb-6 opacity-20">
+      <MessageSquare className="size-16 text-telegram-blue" />
+    </div>
     <h2 className="text-xl font-medium mb-2">{text}</h2>
     <p className="text-sm text-muted-foreground text-center max-w-[200px]">
       Conversation content goes here
