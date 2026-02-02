@@ -16,14 +16,20 @@ import dynamic from "next/dynamic"
 const NewChatDialog = dynamic(() => import("./NewChatDialog"), { ssr: false })
 
 // Hoist static EmptyStateIndicator component to avoid re-creation
-const EmptyStateIndicator = ({ text }: { text: string }) => (
+const EmptyStateIndicator = ({
+  text,
+  description,
+}: {
+  text: string
+  description: string
+}) => (
   <div className="flex h-full flex-col items-center justify-center px-4 bg-[#fafafa]">
     <div className="mb-6 opacity-20">
       <MessageSquare className="size-16 text-telegram-blue" />
     </div>
     <h2 className="text-xl font-medium mb-2">{text}</h2>
     <p className="text-sm text-muted-foreground text-center max-w-[200px]">
-      Conversation content goes here
+      {description}
     </p>
   </div>
 )
@@ -118,7 +124,10 @@ export function Sidebar() {
               options={options}
               sort={sort}
               EmptyStateIndicator={() => (
-                <EmptyStateIndicator text={t("ready")} />
+                <EmptyStateIndicator
+                  text={t("ready")}
+                  description={t("conversation")}
+                />
               )}
             />
 
