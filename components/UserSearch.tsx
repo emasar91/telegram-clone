@@ -28,7 +28,7 @@ function UserSearch({ onSelectUser, className, placeholder }: Props) {
   const t = useTranslations("newChatDialog")
 
   const handleSelectUser = (user: (typeof searchResults)[0]) => {
-    onSelectUser?.(user)
+    onSelectUser(user)
     setSearchTerm("")
   }
 
@@ -83,7 +83,7 @@ function UserSearch({ onSelectUser, className, placeholder }: Props) {
                   className={cn(
                     "w-full px-4 py-3 text-left hover:bg-accent transition-colors",
                     "border-b border-border last:border-0",
-                    "focus:outline-accent focus:bg-accent",
+                    "focus:outline-accent focus:bg-accent cursor-pointer",
                   )}
                 >
                   <div className="flex items-center space-x-3">

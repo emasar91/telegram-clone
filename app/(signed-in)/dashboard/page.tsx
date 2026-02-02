@@ -22,9 +22,13 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar"
 import { MenubarItem } from "@radix-ui/react-menubar"
-import CustomModal from "@/components/CustomModal"
 import { useState } from "react"
 import { useSidebar } from "@/providers/SidebarProvider"
+import dynamic from "next/dynamic"
+
+const CustomModal = dynamic(() => import("@/components/CustomModal"), {
+  loading: () => <div className="w-full h-full bg-white" />,
+})
 
 function DashboardPage() {
   const t = useTranslations("dashboard")
@@ -34,27 +38,9 @@ function DashboardPage() {
   const { setOpenSidebar } = useSidebar()
 
   const [open, setOpen] = useState(false)
-  const [confirmLeave, setConfirmLeave] = useState(false)
 
-  const handleConfirmLeave = () => {
-    setConfirmLeave(true)
-    handleLeaveChat()
-  }
-
-  const handleCall = () => {
+  const handleConfirmLeave = async () => {
     if (!channel || !user) return
-    setOpenSidebar(false)
-    router.push(`/dashboard/call/${channel.id}`)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const handleLeaveChat = async () => {
-    if (!channel || !user) return
-    setOpen(true)
-    if (!confirmLeave) return
 
     try {
       await channel.removeMembers([user.id])
@@ -66,6 +52,16 @@ function DashboardPage() {
       setOpen(false)
       setOpenSidebar(true)
     }
+  }
+
+  const handleCall = () => {
+    if (!channel || !user) return
+    setOpenSidebar(false)
+    router.push(`/dashboard/call/${channel.id}`)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
   }
 
   const isMobile = useIsMobile(900)
@@ -108,13 +104,17 @@ function DashboardPage() {
                 </Menubar>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" onClick={handleCall}>
+                  <Button
+                    variant="outline"
+                    onClick={handleCall}
+                    className="cursor-pointer"
+                  >
                     <VideoIcon className="w-4 h-4" />
                     {t("chatButtons.videoCall")}
                   </Button>
 
                   <Button
-                    className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+                    className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
                     variant="outline"
                     onClick={() => setOpen(true)}
                   >
@@ -149,6 +149,9 @@ function DashboardPage() {
         handleClose={handleClose}
         onConfirm={handleConfirmLeave}
         onCancel={handleClose}
+        title="chatButtons.leaveTitle"
+        description="chatButtons.leaveDescription"
+        translate="dashboard"
       />
     </div>
   )

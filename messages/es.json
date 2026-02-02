@@ -82,11 +82,13 @@
   "dashboard": {
     "noChatSelected": "No hay chat seleccionado",
     "selectChat": "Selecciona un chat de la barra lateral para comenzar a enviar mensajes",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
     "chatButtons": {
       "videoCall": "Video llamada",
       "leave": "Salir del chat",
-      "confirm": "Salir del chat",
-      "cancel": "Cancelar"
+      "leaveTitle": "Salir del chat",
+      "leaveDescription": "¿Estás seguro de que quieres salir del chat?"
     }
   },
   "call": {

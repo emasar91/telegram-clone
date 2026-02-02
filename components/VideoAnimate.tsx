@@ -2,7 +2,11 @@
 import { useRef, useEffect, useState } from "react"
 import Image from "next/image"
 import { useTranslations } from "next-intl"
-import CustomModal from "./CustomModal"
+import dynamic from "next/dynamic"
+
+const CustomModal = dynamic(() => import("@/components/CustomModal"), {
+  loading: () => <div className="w-full h-full bg-white" />,
+})
 
 export default function VideoHoverCard({ type }: { type: string }) {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -17,7 +21,9 @@ export default function VideoHoverCard({ type }: { type: string }) {
 
     if (video.ended) {
       video.currentTime = 0
-      video.play()
+      video.play().catch((err) => {
+        console.warn("Video playback failed on hover:", err)
+      })
     }
   }
 
@@ -25,14 +31,16 @@ export default function VideoHoverCard({ type }: { type: string }) {
     const video = videoRef.current
     if (!video) return
 
-    video.play()
+    video.play().catch((err) => {
+      console.warn("Initial video playback failed:", err)
+    })
   }, [])
 
   const width = type === "android" ? "w-[245px]" : "w-[350px]"
 
   const handleModal = () => {
-    setOpenModal(true)
     setPlatform(t(type))
+    setOpenModal(true)
   }
 
   return (

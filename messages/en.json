@@ -82,11 +82,13 @@
   "dashboard": {
     "noChatSelected": "No chat selected",
     "selectChat": "Select a chat from the sidebar to start messaging",
+    "cancel": "Cancel",
+    "confirm": "Leave chat",
     "chatButtons": {
       "videoCall": "Video call",
       "leave": "Leave chat",
-      "confirm": "Leave chat",
-      "cancel": "Cancel"
+      "leaveTitle": "Leave chat",
+      "leaveDescription": "Are you sure you want to leave this chat?"
     }
   },
   "call": {

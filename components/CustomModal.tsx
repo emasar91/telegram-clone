@@ -15,6 +15,9 @@ type Props = {
   handleClose: () => void
   onConfirm?: () => void
   onCancel?: () => void
+  title?: string
+  description?: string
+  translate?: string
 }
 
 const CustomModal = ({
@@ -23,19 +26,21 @@ const CustomModal = ({
   handleClose,
   onConfirm,
   onCancel,
+  title = "title",
+  description = "description",
+  translate = "home.download",
 }: Props) => {
-  const t = useTranslations("home.download")
-  const t2 = useTranslations("dashboard.chatButtons")
+  const t = useTranslations(translate)
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="text-[18px] font-lucida text-telegram-blue w-[90%]">
-            {t("title", { platform: platform || "" })}
+            {t(title, { platform: platform || "" })}
           </DialogTitle>
           <DialogDescription className="text-gray-500 text-[15px] font-lucida">
-            {t("description", { platform: platform || "" })}
+            {t(description, { platform: platform || "" })}
           </DialogDescription>
         </DialogHeader>
         {onConfirm && onCancel && (
@@ -45,14 +50,14 @@ const CustomModal = ({
               onClick={onCancel}
               className="cursor-pointer"
             >
-              {t2("cancel")}
+              {t("cancel")}
             </Button>
             <Button
               variant="destructive"
               onClick={() => onConfirm()}
               className="cursor-pointer"
             >
-              {t2("confirm")}
+              {t("confirm")}
             </Button>
           </DialogFooter>
         )}

@@ -1,6 +1,14 @@
 "use client" // Lottie necesita ejecutarse en el cliente
 
-import Lottie from "lottie-react"
+import dynamic from "next/dynamic"
+
+// Dynamically import Lottie to reduce initial bundle size
+const Lottie = dynamic(() => import("lottie-react"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full bg-muted/20 animate-pulse rounded-full" />
+  ),
+})
 
 interface Props {
   title: string

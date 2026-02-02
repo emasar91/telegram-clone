@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, ReactNode } from "react"
+import { createContext, useContext, useState, useMemo, ReactNode } from "react"
 
 // 1. Definir el tipo para el contexto
 interface SidebarContextType {
@@ -15,10 +15,11 @@ const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
 export const SidebarProvider = ({ children }: { children: ReactNode }) => {
   const [openSidebar, setOpenSidebar] = useState(true)
 
+  // Memoize context value to prevent unnecessary re-renders
+  const value = useMemo(() => ({ openSidebar, setOpenSidebar }), [openSidebar])
+
   return (
-    <SidebarContext.Provider value={{ openSidebar, setOpenSidebar }}>
-      {children}
-    </SidebarContext.Provider>
+    <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
   )
 }
 

@@ -2,8 +2,12 @@
 import Image from "next/image"
 import { useTranslations } from "next-intl"
 import { useIsMobile } from "@/hooks/useIsMobile"
-import CustomModal from "./CustomModal"
 import { useState } from "react"
+import dynamic from "next/dynamic"
+
+const CustomModal = dynamic(() => import("@/components/CustomModal"), {
+  loading: () => <div className="w-full h-full bg-white" />,
+})
 
 function PcMacos() {
   const t = useTranslations("home")

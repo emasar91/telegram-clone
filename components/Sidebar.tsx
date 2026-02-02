@@ -6,11 +6,25 @@ import { UserButton, useUser } from "@clerk/nextjs"
 import { Separator } from "./ui/separator"
 import { ChannelList } from "stream-chat-react"
 import { ChannelSort } from "stream-chat"
-import NewChatDialog from "./NewChatDialog"
 import { Button } from "./ui/button"
 import { useTranslations } from "next-intl"
 import { useSidebar } from "@/providers/SidebarProvider"
 import { useIsMobile } from "@/hooks/useIsMobile"
+import { useMemo } from "react"
+import dynamic from "next/dynamic"
+
+const NewChatDialog = dynamic(() => import("./NewChatDialog"), { ssr: false })
+
+// Hoist static EmptyStateIndicator component to avoid re-creation
+const EmptyStateIndicator = ({ text }: { text: string }) => (
+  <div className="flex h-full flex-col items-center justify-center px-4 bg-[#fafafa]">
+    <div className="text-6xl mb-6 opacity-20">💬</div>
+    <h2 className="text-xl font-medium mb-2">{text}</h2>
+    <p className="text-sm text-muted-foreground text-center max-w-[200px]">
+      Conversation content goes here
+    </p>
+  </div>
+)
 
 export function Sidebar() {
   const { user } = useUser()
@@ -18,19 +32,28 @@ export function Sidebar() {
   const { openSidebar, setOpenSidebar } = useSidebar()
   const isMobile = useIsMobile()
 
-  const filters = {
-    members: { $in: [user?.id as string] },
-    type: { $in: ["messaging", "team"] },
-  }
+  const filters = useMemo(
+    () => ({
+      members: { $in: [user?.id as string] },
+      type: { $in: ["messaging", "team"] },
+    }),
+    [user?.id],
+  )
 
-  const options = {
-    presence: true,
-    state: true,
-  }
+  const options = useMemo(
+    () => ({
+      presence: true,
+      state: true,
+    }),
+    [],
+  )
 
-  const sort: ChannelSort = {
-    last_message_at: -1,
-  }
+  const sort: ChannelSort = useMemo(
+    () => ({
+      last_message_at: -1,
+    }),
+    [],
+  )
 
   return (
     <>
@@ -93,13 +116,7 @@ export function Sidebar() {
               options={options}
               sort={sort}
               EmptyStateIndicator={() => (
-                <div className="flex h-full flex-col items-center justify-center px-4 bg-[#fafafa]">
-                  <div className="text-6xl mb-6 opacity-20">💬</div>
-                  <h2 className="text-xl font-medium mb-2">{t("ready")}</h2>
-                  <p className="text-sm text-muted-foreground text-center max-w-[200px]">
-                    {t("conversation")}
-                  </p>
-                </div>
+                <EmptyStateIndicator text={t("ready")} />
               )}
             />
 

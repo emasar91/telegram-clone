@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import "./globals.css"
 import ConvexClientProvider from "@/providers/ConvexClientProvider"
 import IntlProvider from "@/providers/IntlProvider"
@@ -8,7 +8,10 @@ import { SidebarProvider } from "@/providers/SidebarProvider"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://emasar-telegram-clone.vercel.app"),
-  title: "Telegram Clone",
+  title: {
+    default: "Telegram Clone",
+    template: "%s | Telegram Clone",
+  },
   description:
     "A Telegram clone with video call feature and more. Created by Emanuel Sarco",
   openGraph: {
@@ -27,6 +30,12 @@ export const metadata: Metadata = {
     locale: "es_AR",
     type: "website",
   },
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#3390ec",
 }
 
 export const lucida = localFont({

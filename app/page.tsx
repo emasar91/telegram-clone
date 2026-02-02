@@ -20,6 +20,7 @@ export default function Home() {
             width={130}
             height={130}
             className="mt-10"
+            priority
           />
           <TelegramIcon />
 

@@ -36,9 +36,13 @@ function NewChatDialog({ children }: Props) {
   const locale = useLocale()
 
   const handlerSelectUser = (user: Doc<"users">) => {
-    if (!selectedUser.find((u) => u._id === user._id)) {
-      setSelectedUser((prev) => [...prev, user])
-    }
+    setSelectedUser((prev) => {
+      // Check if user already exists to prevent duplicates
+      if (prev.find((u) => u._id === user._id)) {
+        return prev
+      }
+      return [...prev, user]
+    })
   }
 
   const removeUser = (userId: string) => {
@@ -127,7 +131,7 @@ function NewChatDialog({ children }: Props) {
                     </div>
                     <button
                       onClick={() => removeUser(user._id)}
-                      className="text-muted-foreground hover:text-destructive transition-colors p-1"
+                      className="text-muted-foreground hover:text-destructive transition-colors p-1 cursor-pointer"
                     >
                       <XIcon className="h-4 w-4" />
                     </button>
@@ -160,13 +164,17 @@ function NewChatDialog({ children }: Props) {
         </div>
 
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
+            className="cursor-pointer"
+          >
             {t("cancel")}
           </Button>
           <Button
             onClick={handleCreateChat}
             disabled={selectedUser.length === 0}
-            className="bg-telegram-blue"
+            className="bg-telegram-blue cursor-pointer"
           >
             {selectedUser.length > 1
               ? t("createGroupChat", { count: selectedUser.length + 1 })

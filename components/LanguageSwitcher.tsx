@@ -28,12 +28,12 @@ export function LanguageSwitcher() {
   }
   const itemClass = (active: boolean) =>
     active
-      ? "text-blue-500 data-[highlighted]:text-blue-500"
-      : "data-[highlighted]:text-black"
+      ? "text-blue-500 data-[highlighted]:text-blue-500 cursor-pointer"
+      : "data-[highlighted]:text-black cursor-pointer"
   return (
-    <Menubar>
+    <Menubar className="cursor-pointer">
       <MenubarMenu>
-        <MenubarTrigger>
+        <MenubarTrigger className="cursor-pointer">
           <Globe className="w-4 h-4 mr-2" />
           {locale.toUpperCase()}
           <ChevronDown className="w-4 h-4 ml-2" />
