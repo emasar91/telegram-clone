@@ -25,6 +25,7 @@ import { MenubarItem } from "@radix-ui/react-menubar"
 import { useState } from "react"
 import { useSidebar } from "@/providers/SidebarProvider"
 import dynamic from "next/dynamic"
+import { useBotTelegramAi } from "@/hooks/useBotTelegramAi"
 
 const CustomModal = dynamic(() => import("@/components/CustomModal"), {
   loading: () => <div className="w-full h-full bg-white" />,
@@ -36,6 +37,9 @@ function DashboardPage() {
   const router = useRouter()
   const { channel, setActiveChannel } = useChatContext()
   const { setOpenSidebar } = useSidebar()
+
+  // Enable Bot Telegram responses
+  useBotTelegramAi()
 
   const [open, setOpen] = useState(false)
 

@@ -1,5 +1,5 @@
-import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { v } from "convex/values"
+import { mutation, query } from "./_generated/server"
 
 export const getUserByClerkUserId = query({
   args: {
@@ -7,17 +7,17 @@ export const getUserByClerkUserId = query({
   },
   handler: async (ctx, { userId }) => {
     if (!userId) {
-      return null;
+      return null
     }
 
     const user = await ctx.db
       .query("users")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
-      .first();
+      .first()
 
-    return user;
+    return user
   },
-});
+})
 
 export const upsertUser = mutation({
   args: {
@@ -30,25 +30,25 @@ export const upsertUser = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_userId", (q) => q.eq("userId", userId))
-      .first();
+      .first()
 
     if (user) {
       await ctx.db.patch(user._id, {
         name,
         imageUrl,
-      });
+      })
 
-      return user._id;
+      return user._id
     } else {
       return await ctx.db.insert("users", {
         userId,
         name,
         email,
         imageUrl,
-      });
+      })
     }
   },
-});
+})
 
 export const searchUsers = query({
   args: {
@@ -56,17 +56,21 @@ export const searchUsers = query({
   },
   handler: async (ctx, { searchTerm }) => {
     if (!searchTerm.trim()) {
-      return [];
+      return []
     }
 
-    const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+    const normalizedSearchTerm = searchTerm.trim().toLowerCase()
 
-    const users = await ctx.db.query("users").collect();
+    const users = await ctx.db.query("users").collect()
 
     return users.filter(
       (user) =>
         user.name.toLowerCase().includes(normalizedSearchTerm) ||
         user.email.toLowerCase().includes(normalizedSearchTerm),
-    );
+    )
   },
-});
+})
+
+import { defaultBotTelegramUser } from "./bot"
+
+export { defaultBotTelegramUser }

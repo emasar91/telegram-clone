@@ -16,27 +16,26 @@ export function useCreateNewChat() {
   }) => {
     const isGroupChat = members.length > 2
 
-    if (isGroupChat) {
-      const existingChannel = await streamClient.queryChannels(
-        {
-          type: "messaging",
-          members: { $in: members },
-        },
-        { created_at: -1 },
-        { limit: 1 },
-      )
+    // 1. Check for existing channel with these exact members
+    // This prevents duplicates and ensures we return the same conversation
+    const existingChannels = await streamClient.queryChannels(
+      {
+        members: { $in: members },
+      },
+      {},
+      { limit: 30 },
+    )
 
-      if (existingChannel.length > 0) {
-        const channel = existingChannel[0]
-        const channelMembers = Object.keys(channel.state.members)
-        if (
-          channelMembers.length === 2 &&
-          members.length === 2 &&
-          members.every((member) => channelMembers.includes(member))
-        ) {
-          return channel
-        }
-      }
+    const findExactMatch = existingChannels.find((channel) => {
+      const channelMembers = Object.keys(channel.state.members)
+      return (
+        channelMembers.length === members.length &&
+        members.every((m) => channelMembers.includes(m))
+      )
+    })
+
+    if (findExactMatch) {
+      return findExactMatch
     }
 
     const channelId = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}`
@@ -64,8 +63,10 @@ export function useCreateNewChat() {
       )
 
       await channel.watch({ presence: true })
+      return channel
     } catch (error) {
       console.log(error)
+      return undefined
     }
   }
   return createNewChat
