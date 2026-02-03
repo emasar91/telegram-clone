@@ -25,9 +25,20 @@ type Props = {
   children: React.ReactNode
 }
 
+const defaultUser: Doc<"users"> = {
+  email: "Bot@Telegram.com",
+  imageUrl: "https://emasar-telegram-clone.vercel.app/assets/images/Ai.jpg",
+  name: "Telegram Bot",
+  userId: "user_398rB8F6I92w57TYqAN5oRGmJR4",
+  _creationTime: 1770086150461.6514,
+  _id: "j57cdrapwkfmkjyxzdtndeth5980frx0",
+}
+
 function NewChatDialog({ children }: Props) {
   const [open, setOpen] = useState(false)
-  const [selectedUser, setSelectedUser] = useState<Doc<"users">[]>([])
+  const [selectedUser, setSelectedUser] = useState<Doc<"users">[]>([
+    defaultUser,
+  ])
   const [groupName, setGroupName] = useState("")
   const createNewChat = useCreateNewChat()
   const { user } = useUser()
@@ -72,6 +83,7 @@ function NewChatDialog({ children }: Props) {
           ? `Grupo (${totalMembers} miembros)`
           : `Group Chat (${totalMembers} members)`
         : undefined,
+      img: selectedUser.length === 1 ? selectedUser[0].imageUrl : undefined,
     })
 
     setActiveChannel(channel)
