@@ -38,6 +38,11 @@ function NewChatDialog({ children }: Props) {
   const t = useTranslations("newChatDialog")
   const locale = useLocale()
 
+  const botInGroup = selectedUser.find(
+    (u) => u._id === defaultBotTelegramUser._id,
+  )
+  const botCantBeInGroup = selectedUser.length > 1 && !!botInGroup
+
   const handlerSelectUser = (user: Doc<"users">) => {
     setSelectedUser((prev) => {
       // Check if user already exists to prevent duplicates
@@ -108,7 +113,7 @@ function NewChatDialog({ children }: Props) {
               <h4 className="text-sm font-medium text-foreground">
                 {t("selectedUsers")} ({selectedUser.length})
               </h4>
-              <div className="space-y-2 max-h-[200px] overflow-y-auto">
+              <div className="space-y-2 max-h-[200px] overflow-y-auto mr-0">
                 {selectedUser.map((user) => (
                   <div
                     key={user._id}
@@ -167,6 +172,11 @@ function NewChatDialog({ children }: Props) {
           )}
         </div>
 
+        {botCantBeInGroup && (
+          <p className="text-sm text-red-500 bg-red-500/10 p-2 rounded-md">
+            {t("botCantBeInGroup")}
+          </p>
+        )}
         <DialogFooter>
           <Button
             variant="outline"
@@ -177,7 +187,7 @@ function NewChatDialog({ children }: Props) {
           </Button>
           <Button
             onClick={handleCreateChat}
-            disabled={selectedUser.length === 0}
+            disabled={selectedUser.length === 0 || botCantBeInGroup}
             className="bg-telegram-blue cursor-pointer"
           >
             {selectedUser.length > 1

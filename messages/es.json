@@ -18,7 +18,8 @@
     "startChat": "Iniciar chat",
     "searchPlaceholder": "Buscar usuario para iniciar un nuevo chat",
     "searchingForUsers": "Buscando usuarios...",
-    "userNotFound": "No se encontraron usuarios que coincidan"
+    "userNotFound": "No se encontraron usuarios que coincidan",
+    "botCantBeInGroup": "El bot no puede estar en un grupo"
   },
   "home": {
     "title": "Telegram Clon",

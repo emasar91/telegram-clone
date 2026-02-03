@@ -18,7 +18,8 @@
     "startChat": "Start chat",
     "searchPlaceholder": "Search user to start a new chat",
     "searchingForUsers": "Searching for users...",
-    "userNotFound": "No users found matching"
+    "userNotFound": "No users found matching",
+    "botCantBeInGroup": "Bot can't be in a group"
   },
   "home": {
     "title": "Hello world",

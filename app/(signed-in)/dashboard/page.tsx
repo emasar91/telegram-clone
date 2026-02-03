@@ -139,10 +139,10 @@ function DashboardPage() {
             <MessageList />
 
             <div className="sticky bottom-0 w-full max-w-4xl mx-auto p-4">
-              <MessageInput />
+              <MessageInput maxRows={5} />
             </div>
           </Window>
-          <Thread />
+          <Thread additionalMessageInputProps={{ maxRows: 5 }} />
         </Channel>
       ) : (
         <div className="flex flex-col items-center justify-center h-full mx-4">

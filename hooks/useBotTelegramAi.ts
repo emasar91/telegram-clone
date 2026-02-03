@@ -21,23 +21,16 @@ export function useBotTelegramAi() {
     if (!client || !user) return
 
     const handleEvent = async (event: Event) => {
-      // 1. Only respond to new messages
-      if (
-        event.type !== "message.new" &&
-        event.type !== "notification.message_new"
-      )
-        return
-
       const { message, channel_id, channel_type } = event
 
-      // 2. Only respond if the message is from the CURRENT user
+      // 1. Only respond if the message is from the CURRENT user
       // This prevents duplicate triggers from multiple users or tabs
       if (!message || !message.user || message.user.id !== user.id) {
         return
       }
       if (!channel_id || !channel_type) return
 
-      // 3. Get channel details to check membership
+      // 2. Get channel details to check membership
       const channel = client.channel(channel_type, channel_id)
 
       // Ensure state is loaded
@@ -50,7 +43,7 @@ export function useBotTelegramAi() {
 
       const members = Object.keys(channel.state.members)
 
-      // 4. Trigger AI if Josef is in the channel
+      // 3. Trigger AI if Josef is in the channel
       if (members.includes(BOT_TELEGRAM_ID)) {
         // We call the server action to handle Groq + Stream posting
         const result = await handleBotTelegramAI(
@@ -62,10 +55,11 @@ export function useBotTelegramAi() {
       }
     }
 
-    client.on(handleEvent)
+    // Bind specifically to 'message.new' to avoid duplication with 'notification.message_new'
+    client.on("message.new", handleEvent)
 
     return () => {
-      client.off(handleEvent)
+      client.off("message.new", handleEvent)
     }
   }, [client, user])
 }
