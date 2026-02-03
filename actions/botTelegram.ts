@@ -19,10 +19,6 @@ export async function handleBotTelegramAI(
   userMessage: string,
   channelType: string = "messaging",
 ) {
-  console.log(
-    `Server Action: Received message for channel ${channelId} (${channelType}): "${userMessage}"`,
-  )
-
   if (!process.env.GROQ_API_KEY) {
     console.error("Missing GROQ_API_KEY")
     return { success: false, error: "Missing GROQ_API_KEY" }
@@ -33,7 +29,6 @@ export async function handleBotTelegramAI(
   }
 
   try {
-    console.log("Fetching completion from Groq...")
     // 1. Get response from Groq
     const completion = await groq.chat.completions.create({
       messages: [
@@ -62,8 +57,7 @@ export async function handleBotTelegramAI(
     })
 
     return { success: true }
-  } catch (error) {
-    console.error("Error in Bot Telegram:", error)
+  } catch {
     return { success: false, error: "Failed to generate AI response" }
   }
 }

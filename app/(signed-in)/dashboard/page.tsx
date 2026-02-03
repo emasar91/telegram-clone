@@ -25,7 +25,7 @@ import { MenubarItem } from "@radix-ui/react-menubar"
 import { useState } from "react"
 import { useSidebar } from "@/providers/SidebarProvider"
 import dynamic from "next/dynamic"
-import { useBotTelegramAi } from "@/hooks/useBotTelegramAi"
+import { BOT_TELEGRAM_ID, useBotTelegramAi } from "@/hooks/useBotTelegramAi"
 
 const CustomModal = dynamic(() => import("@/components/CustomModal"), {
   loading: () => <div className="w-full h-full bg-white" />,
@@ -36,6 +36,9 @@ function DashboardPage() {
   const { user } = useUser()
   const router = useRouter()
   const { channel, setActiveChannel } = useChatContext()
+  const { members } = channel?.state || {}
+  const isBotTelegramMember = members?.[BOT_TELEGRAM_ID] || false
+
   const { setOpenSidebar } = useSidebar()
 
   // Enable Bot Telegram responses
@@ -88,13 +91,15 @@ function DashboardPage() {
                       <EllipsisVertical />
                     </MenubarTrigger>
                     <MenubarContent className="min-w-4 mr-2">
-                      <MenubarItem
-                        onClick={handleCall}
-                        className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
-                      >
-                        <VideoIcon className="w-4 h-4" />
-                        {t("chatButtons.videoCall")}
-                      </MenubarItem>
+                      {!isBotTelegramMember && (
+                        <MenubarItem
+                          onClick={handleCall}
+                          className="flex items-center gap-2 p-2 cursor-pointer hover:bg-gray-100"
+                        >
+                          <VideoIcon className="w-4 h-4" />
+                          {t("chatButtons.videoCall")}
+                        </MenubarItem>
+                      )}
 
                       <MenubarItem
                         className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
@@ -108,14 +113,16 @@ function DashboardPage() {
                 </Menubar>
               ) : (
                 <div className="flex items-center gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={handleCall}
-                    className="cursor-pointer"
-                  >
-                    <VideoIcon className="w-4 h-4" />
-                    {t("chatButtons.videoCall")}
-                  </Button>
+                  {!isBotTelegramMember && (
+                    <Button
+                      variant="outline"
+                      onClick={handleCall}
+                      className="cursor-pointer"
+                    >
+                      <VideoIcon className="w-4 h-4" />
+                      {t("chatButtons.videoCall")}
+                    </Button>
+                  )}
 
                   <Button
                     className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
