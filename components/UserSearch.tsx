@@ -78,6 +78,8 @@ function UserSearch({ onSelectUser, className, placeholder }: Props) {
             <div className="py-2">
               {filteredResults.map((user) => (
                 <button
+                  role="option"
+                  aria-selected={user.email === searchTerm}
                   key={user._id}
                   onClick={() => handleSelectUser(user)}
                   className={cn(

@@ -39,20 +39,29 @@ test.describe("Chat Functionality (Authenticated)", () => {
       page.getByText(/Start a new chat|Empezar un nuevo chat/i),
     ).toBeVisible()
 
+    // 1.1 Remove the default "Telegram Bot" user
+    const botRemoveButton = page
+      .locator("div")
+      .filter({ hasText: /Telegram Bot/i })
+      .locator("button")
+      .first()
+    await expect(botRemoveButton).toBeVisible({ timeout: 10000 })
+    await botRemoveButton.click()
+
     // 2. Search for the user 'ema'
     const searchInput = page.getByPlaceholder(/Search user|Buscar usuario/i)
     await searchInput.fill("ema")
 
-    // 3. Select user from results
-    const userResult = page
-      .locator("div.py-2 button")
-      .filter({ hasText: /ema/i })
-      .first()
+    // 3. Select user from results specifically matching ema_sar91
+    const userResult = page.getByRole("option", { name: /emasar91/i })
     await expect(userResult).toBeVisible({ timeout: 15000 })
     await userResult.click()
 
     // Verify user is selected
-    const selectedBadge = page.locator("div").filter({ hasText: /ema/i }).last()
+    const selectedBadge = page
+      .locator("div")
+      .filter({ hasText: /emasar91/i })
+      .last()
     await expect(selectedBadge).toBeVisible({ timeout: 10000 })
 
     // 4. Click 'Create Chat' button
