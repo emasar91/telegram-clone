@@ -29,18 +29,31 @@ export async function handleBotTelegramAI(
   }
 
   try {
-    // 1. Get response from Groq
+    // 1. Fetch recent message history for context
+    const channel = serverClient.channel(channelType, channelId)
+    const queryResponse = await channel.query({
+      messages: { limit: 15 },
+    })
+
+    const history = queryResponse.messages
+      .filter((m) => m.text) // Ensure there's text
+      .map((m) => ({
+        role:
+          m.user?.id === BOT_TELEGRAM_ID
+            ? ("assistant" as const)
+            : ("user" as const),
+        content: m.text || "",
+      }))
+
+    // 2. Get response from Groq with history
     const completion = await groq.chat.completions.create({
       messages: [
         {
           role: "system",
           content:
-            "Eres Bot Telegram, un usuario normal de Telegram. Eres amigable, informal y hablas como una persona real. Evitas parecer un robot o un asistente. Respondes de forma concisa y natural.",
+            "Eres Bot Telegram, llamado Boti, un usuario normal de Telegram. Eres amigable, informal y hablas como una persona real. Evitas parecer un robot o un asistente. Respondes de forma concisa y natural.Estas en un proyecto de Telegram Clone, desarrollado por Emanuel Sarco, Desarrollador FrontEnd con React y Next, con 5 anios de experiencia. El estack es Next.js, TypeScript, Clerk, Stream Chat y Groq. En el proyecto se esta usando el framework Convex para la base de datos y el backend. En el proyecto se puede crear chats con usuarios y grupos, enviar mensajes, archivos y stickers. Tambien puedes buscar usuarios por nombre o correo electronico. Tambien puedes buscar grupos por nombre. Tambien se puede hacer videollamadas. En el caso que oregunten algo del proyecto recomenda entrar al portfolio, que es https://emasar-portfolio.vercel.app para tener mas informacion, y ver mas proyectos desarrollados por Emanuel Sarco.",
         },
-        {
-          role: "user",
-          content: userMessage,
-        },
+        ...history,
       ],
       model: "llama-3.3-70b-versatile",
     })
@@ -49,8 +62,6 @@ export async function handleBotTelegramAI(
       completion.choices[0]?.message?.content || "No sé qué decir a eso..."
 
     // 2. Post response to Stream Chat as Bot Telegram
-    const channel = serverClient.channel(channelType, channelId)
-
     await channel.sendMessage({
       text: aiResponse,
       user_id: BOT_TELEGRAM_ID,
