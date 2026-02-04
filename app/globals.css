@@ -268,3 +268,7 @@
 .str-video .text-white {
   height: 100dvh !important;
 }
+
+.str-chat__li str-chat__li--top .str-chat__message-bubble {
+  background-color: #e0ffe0 !important;
+}

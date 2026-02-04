@@ -8,6 +8,8 @@ import {
   MessageInput,
   MessageList,
   Thread,
+  useChannelActionContext,
+  useChannelStateContext,
   useChatContext,
   Window,
 } from "stream-chat-react"
@@ -72,6 +74,29 @@ function DashboardPage() {
   }
 
   const isMobile = useIsMobile(900)
+
+  const CustomThread = () => {
+    const { closeThread } = useChannelActionContext()
+    const { thread } = useChannelStateContext()
+
+    if (!thread) return null
+    return isMobile ? (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+        onClick={closeThread} // Cerrar si hacen clic fuera del div
+      >
+        {/* Tu div centrado con límites de tamaño */}
+        <div
+          className="py-2 relative w-[95%] h-[80%] max-w-[400px] max-h-[500px] bg-white rounded-xl shadow-2xl overflow-hidden"
+          onClick={(e) => e.stopPropagation()} // Evita que el clic interno cierre el modal
+        >
+          <Thread additionalMessageInputProps={{ maxRows: 5 }} />
+        </div>
+      </div>
+    ) : (
+      <Thread additionalMessageInputProps={{ maxRows: 5 }} />
+    )
+  }
 
   return (
     <div className="flex flex-col w-full flex-1 ">
@@ -142,7 +167,7 @@ function DashboardPage() {
               <MessageInput maxRows={5} />
             </div>
           </Window>
-          <Thread additionalMessageInputProps={{ maxRows: 5 }} />
+          <CustomThread />
         </Channel>
       ) : (
         <div className="flex flex-col items-center justify-center h-full mx-4">

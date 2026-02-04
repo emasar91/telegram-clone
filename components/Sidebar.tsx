@@ -4,13 +4,13 @@ import { PanelLeftClose, PencilIcon, MessageSquare } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { UserButton, useUser } from "@clerk/nextjs"
 import { Separator } from "./ui/separator"
-import { ChannelList } from "stream-chat-react"
+import { ChannelList, useChatContext } from "stream-chat-react"
 import { ChannelSort } from "stream-chat"
 import { Button } from "./ui/button"
 import { useTranslations } from "next-intl"
 import { useSidebar } from "@/providers/SidebarProvider"
 import { useIsMobile } from "@/hooks/useIsMobile"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import dynamic from "next/dynamic"
 
 const NewChatDialog = dynamic(() => import("./NewChatDialog"), { ssr: false })
@@ -62,6 +62,12 @@ export function Sidebar() {
     }),
     [],
   )
+  const { channel } = useChatContext()
+
+  useEffect(() => {
+    setOpenSidebar(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channel])
 
   return (
     <>
