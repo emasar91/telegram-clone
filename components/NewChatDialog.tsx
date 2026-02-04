@@ -21,6 +21,7 @@ import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { useLocale, useTranslations } from "next-intl"
 import { defaultBotTelegramUser } from "@/convex/bot"
+import { useSidebar } from "@/providers/SidebarProvider"
 
 type Props = {
   children: React.ReactNode
@@ -37,6 +38,7 @@ function NewChatDialog({ children }: Props) {
   const { setActiveChannel } = useChatContext()
   const t = useTranslations("newChatDialog")
   const locale = useLocale()
+  const { setOpenSidebar } = useSidebar()
 
   const botInGroup = selectedUser.find(
     (u) => u._id === defaultBotTelegramUser._id,
@@ -87,6 +89,7 @@ function NewChatDialog({ children }: Props) {
     setOpen(false)
     setSelectedUser([])
     setGroupName("")
+    setOpenSidebar(false)
   }
 
   return (

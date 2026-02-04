@@ -57,7 +57,9 @@ function Header({ onToggleSidebar }: { onToggleSidebar?: () => void }) {
               forceRedirectUrl="/dashboard"
               signUpForceRedirectUrl="/dashboard"
             >
-              <Button variant="outline">{t("signIn")}</Button>
+              <Button className="cursor-pointer" variant="outline">
+                {t("signIn")}
+              </Button>
             </SignInButton>
           </Unauthenticated>
         )}

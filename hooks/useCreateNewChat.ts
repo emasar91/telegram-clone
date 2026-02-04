@@ -20,7 +20,7 @@ export function useCreateNewChat() {
     // This prevents duplicates and ensures we return the same conversation
     const existingChannels = await streamClient.queryChannels(
       {
-        members: { $in: members },
+        members: { $in: [members[0]] },
       },
       {},
       { limit: 30 },
