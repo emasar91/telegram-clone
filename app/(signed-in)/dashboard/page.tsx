@@ -29,6 +29,10 @@ import { useSidebar } from "@/providers/SidebarProvider"
 import dynamic from "next/dynamic"
 import { BOT_TELEGRAM_ID, useBotTelegramAi } from "@/hooks/useBotTelegramAi"
 
+// --- NUEVOS IMPORTS PARA CONVEX ---
+import { useMutation } from "convex/react"
+import { api } from "@/convex/_generated/api"
+
 const CustomModal = dynamic(() => import("@/components/CustomModal"), {
   loading: () => <div className="w-full h-full bg-white" />,
 })
@@ -38,19 +42,23 @@ function DashboardPage() {
   const { user } = useUser()
   const router = useRouter()
   const { channel, setActiveChannel } = useChatContext()
+  console.log("🚀 ~ channel:", channel)
   const { members } = channel?.state || {}
   const isBotTelegramMember = members?.[BOT_TELEGRAM_ID] || false
-
   const { setOpenSidebar } = useSidebar()
 
-  // Enable Bot Telegram responses
-  useBotTelegramAi()
+  const receptorCallName = Object.values(members || {}).filter(
+    (member) => member.user?.id !== user?.id,
+  )[0]?.user?.name
 
+  // --- MUTATION DE CONVEX ---
+  const createCall = useMutation(api.calls.createCall)
+
+  useBotTelegramAi()
   const [open, setOpen] = useState(false)
 
   const handleConfirmLeave = async () => {
     if (!channel || !user) return
-
     try {
       await channel.removeMembers([user.id])
       setActiveChannel(undefined)
@@ -63,10 +71,40 @@ function DashboardPage() {
     }
   }
 
-  const handleCall = () => {
+  // --- FUNCIÓN DE LLAMADA ACTUALIZADA ---
+  const handleCall = async () => {
     if (!channel || !user) return
-    setOpenSidebar(false)
-    router.push(`/dashboard/call/${channel.id}`)
+
+    // 1. Identificar al receptor (el miembro del canal que no soy yo)
+    const calleeId = Object.keys(channel.state.members).find(
+      (id) => id !== user.id,
+    )
+
+    if (!calleeId) {
+      console.error("No se encontró a quién llamar")
+      return
+    }
+
+    try {
+      // 2. Crear el ID de la llamada (usamos el ID del canal o un UUID)
+      const streamCallId = `call_${channel.id}_${Date.now()}`
+
+      // 3. Registrar en Convex para que el receptor vea el Modal
+      await createCall({
+        callerId: user.id,
+        calleeId: calleeId,
+        callerName: user.fullName || user.firstName || "Usuario",
+        receptorCallName: receptorCallName,
+        streamCallId: streamCallId,
+        type: "video", // Puedes parametrizar esto si quieres audio/video
+      })
+
+      // 4. Ocultar sidebar y navegar a la página de la llamada
+      setOpenSidebar(false)
+      router.push(`/dashboard/call/${streamCallId}`)
+    } catch (error) {
+      console.error("Error al iniciar la llamada en Convex:", error)
+    }
   }
 
   const handleClose = () => {
@@ -74,9 +112,9 @@ function DashboardPage() {
   }
 
   const isMobile = useIsMobile(900)
-
   const channelMemberCount = channel?.data?.member_count
 
+  // (El resto de tus componentes CustomThread y Return se mantienen igual...)
   const CustomThread = () => {
     const { closeThread } = useChannelActionContext()
     const { thread } = useChannelStateContext()
@@ -85,12 +123,11 @@ function DashboardPage() {
     return isMobile ? (
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
-        onClick={closeThread} // Cerrar si hacen clic fuera del div
+        onClick={closeThread}
       >
-        {/* Tu div centrado con límites de tamaño */}
         <div
           className="py-2 relative w-[95%] h-[80%] max-w-[400px] max-h-[500px] bg-white rounded-xl shadow-2xl overflow-hidden"
-          onClick={(e) => e.stopPropagation()} // Evita que el clic interno cierre el modal
+          onClick={(e) => e.stopPropagation()}
         >
           <Thread additionalMessageInputProps={{ maxRows: 5 }} />
         </div>
@@ -127,7 +164,6 @@ function DashboardPage() {
                           {t("chatButtons.videoCall")}
                         </MenubarItem>
                       )}
-
                       <MenubarItem
                         className="flex items-center gap-2 p-2 cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
                         onClick={() => setOpen(true)}
@@ -150,7 +186,6 @@ function DashboardPage() {
                       {t("chatButtons.videoCall")}
                     </Button>
                   )}
-
                   <Button
                     className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50  dark:hover:bg-red-950"
                     variant="outline"
@@ -162,7 +197,6 @@ function DashboardPage() {
                 </div>
               )}
             </div>
-
             <MessageList />
             {channelMemberCount === 1 ? (
               <Button
@@ -191,7 +225,6 @@ function DashboardPage() {
           </div>
         </div>
       )}
-
       <CustomModal
         open={open}
         handleClose={handleClose}

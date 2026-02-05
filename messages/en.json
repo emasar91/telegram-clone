@@ -101,14 +101,12 @@
     "connectionLost": "Connection lost. Reconnecting...",
     "callError": "Call error",
     "retry": "Retry",
-    "callId": "Call ID",
     "callLeaving": "Leaving call",
     "status": "Status",
-    "waitingForOthers": "Waiting for others...",
-    "shareLink": "Share this link with others to join the call.",
-    "copyLink": "Copy link",
-    "copied": "Link copied!",
-    "othersWillJoin": "Others will be able to join using this link"
+    "othersWillJoin": "Others will be able to join using this link",
+    "callingTo": "Calling to: {name}",
+    "cancelCall": "Cancel call",
+    "waitingForResponse": "Waiting for response"
   },
   "user": {
     "unknown": "Unknown user",

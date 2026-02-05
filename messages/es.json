@@ -101,14 +101,12 @@
     "connectionLost": "Conexión perdida...",
     "callError": "Error en la llamada",
     "retry": "Reintentar",
-    "callId": "ID de llamada",
     "callLeaving": "Saliendo de la llamada",
     "status": "Estado",
-    "waitingForOthers": "Esperando a otros...",
-    "shareLink": "Comparte este enlace con otros para unirte a la llamada.",
-    "copyLink": "Copiar enlace",
-    "copied": "¡Enlace copiado!",
-    "othersWillJoin": "Otros podrán unirse usando este enlace"
+    "othersWillJoin": "Otros podrán unirse usando este enlace",
+    "callingTo": "Llamando a: {name}",
+    "cancelCall": "Cancelar llamada",
+    "waitingForResponse": "Esperando respuesta"
   },
   "user": {
     "unknown": "Usuario Desconocido",
