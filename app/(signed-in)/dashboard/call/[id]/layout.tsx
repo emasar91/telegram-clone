@@ -64,7 +64,7 @@ function Layout({ children }: Props) {
       return
     }
 
-    const newClient = new StreamVideoClient({
+    const newClient = StreamVideoClient.getOrCreateInstance({
       apiKey: process.env.NEXT_PUBLIC_STREAM_API_KEY as string,
       user: streamUser,
       tokenProvider,

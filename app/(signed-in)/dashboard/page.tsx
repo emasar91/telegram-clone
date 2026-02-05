@@ -75,6 +75,9 @@ function DashboardPage() {
 
   const isMobile = useIsMobile(900)
 
+  const channelMemberCount = channel?.data?.member_count
+  console.log("🚀 ~ channelMemberCount:", channelMemberCount)
+
   const CustomThread = () => {
     const { closeThread } = useChannelActionContext()
     const { thread } = useChannelStateContext()
@@ -104,12 +107,12 @@ function DashboardPage() {
         <Channel>
           <Window>
             <div className="flex items-center justify-between p-2 bg-white">
-              {channel.data?.member_count === 1 ? (
+              {channelMemberCount === 1 ? (
                 <ChannelHeader title="Everyone else has left this chat" />
               ) : (
                 <ChannelHeader />
               )}
-              {isMobile ? (
+              {channelMemberCount === 1 ? null : isMobile ? (
                 <Menubar>
                   <MenubarMenu>
                     <MenubarTrigger className="p-0">
@@ -150,7 +153,7 @@ function DashboardPage() {
                   )}
 
                   <Button
-                    className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
+                    className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50  dark:hover:bg-red-950"
                     variant="outline"
                     onClick={() => setOpen(true)}
                   >
@@ -162,10 +165,20 @@ function DashboardPage() {
             </div>
 
             <MessageList />
-
-            <div className="sticky bottom-0 w-full max-w-4xl mx-auto p-4">
-              <MessageInput maxRows={5} />
-            </div>
+            {channelMemberCount === 1 ? (
+              <Button
+                className="cursor-pointer text-red-500 hover:text-red-600 hover:bg-red-50 bg-red-50 dark:hover:bg-red-950"
+                variant="outline"
+                onClick={() => setOpen(true)}
+              >
+                <LogOutIcon className="w-4 h-4" />
+                {t("chatButtons.leave")}
+              </Button>
+            ) : (
+              <div className="sticky bottom-0 w-full max-w-4xl mx-auto p-4">
+                <MessageInput maxRows={5} />
+              </div>
+            )}
           </Window>
           <CustomThread />
         </Channel>

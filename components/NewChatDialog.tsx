@@ -82,7 +82,7 @@ function NewChatDialog({ children }: Props) {
           ? `Grupo (${totalMembers} miembros)`
           : `Group Chat (${totalMembers} members)`
         : undefined,
-      img: selectedUser.length === 1 ? selectedUser[0].imageUrl : undefined,
+      img: undefined,
     })
 
     setActiveChannel(channel)
@@ -112,7 +112,6 @@ function NewChatDialog({ children }: Props) {
 
           {selectedUser.length > 0 && (
             <div className="space-x-3">
-              {" "}
               <h4 className="text-sm font-medium text-foreground">
                 {t("selectedUsers")} ({selectedUser.length})
               </h4>
