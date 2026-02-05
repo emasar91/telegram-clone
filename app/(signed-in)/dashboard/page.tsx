@@ -76,7 +76,6 @@ function DashboardPage() {
   const isMobile = useIsMobile(900)
 
   const channelMemberCount = channel?.data?.member_count
-  console.log("🚀 ~ channelMemberCount:", channelMemberCount)
 
   const CustomThread = () => {
     const { closeThread } = useChannelActionContext()

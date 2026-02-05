@@ -115,7 +115,7 @@ function CallPage() {
               </div>
 
               <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-col sm:flex-row">
                   <div className="flex-1 text-sm text-gray-600 font-mono break-all">
                     {window.location.href}
                   </div>
