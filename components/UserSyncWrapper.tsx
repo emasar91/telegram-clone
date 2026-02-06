@@ -75,7 +75,7 @@ function UserSyncWrapper({ children }: Props) {
     try {
       await streamClient.disconnectUser()
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }, [])
 

@@ -63,7 +63,6 @@ export default function CallLayout({ children }: Props) {
       return
 
     const timeoutId = setTimeout(async () => {
-      console.log("La llamada expiró por falta de respuesta")
       await updateStatus({
         callId: convexCall._id,
         status: "missed",
@@ -101,6 +100,7 @@ export default function CallLayout({ children }: Props) {
       user: streamUser,
       tokenProvider,
     })
+    //eslint-disable-next-line
     setClient(newClient)
     return () => {
       newClient.disconnectUser().catch(console.error)
@@ -175,6 +175,7 @@ export default function CallLayout({ children }: Props) {
     if (exitStatuses.includes(convexCall.status)) {
       router.push("/dashboard")
     }
+    //eslint-disable-next-line
   }, [convexCall?.status, router])
 
   useEffect(() => {
@@ -197,7 +198,7 @@ export default function CallLayout({ children }: Props) {
     }
 
     // CASO B: Recargar página o cerrar pestaña
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+    const handleBeforeUnload = () => {
       // No podemos usar await aquí de forma fiable, pero disparamos la petición
       updateStatus({
         callId: convexCall._id,
@@ -334,9 +335,6 @@ function CallStateWatcher({ convexCallId }: { convexCallId: Id<"calls"> }) {
         call.state.callingState === CallingState.LEFT ||
         call.state.callingState === CallingState.OFFLINE
       ) {
-        console.log(
-          "Detectado fin de llamada en Stream, actualizando Convex...",
-        )
         await updateStatus({ callId: convexCallId, status: "ended" })
       }
     }

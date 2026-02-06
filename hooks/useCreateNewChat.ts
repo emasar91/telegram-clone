@@ -65,7 +65,7 @@ export function useCreateNewChat() {
       await channel.watch({ presence: true })
       return channel
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return undefined
     }
   }

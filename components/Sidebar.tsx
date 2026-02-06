@@ -65,7 +65,9 @@ export function Sidebar() {
   const { channel } = useChatContext()
 
   useEffect(() => {
-    setOpenSidebar(false)
+    if (channel) {
+      setOpenSidebar(false)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channel])
 

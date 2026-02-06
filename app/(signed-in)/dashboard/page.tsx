@@ -42,7 +42,6 @@ function DashboardPage() {
   const { user } = useUser()
   const router = useRouter()
   const { channel, setActiveChannel } = useChatContext()
-  console.log("🚀 ~ channel:", channel)
   const { members } = channel?.state || {}
   const isBotTelegramMember = members?.[BOT_TELEGRAM_ID] || false
   const { setOpenSidebar } = useSidebar()
@@ -62,12 +61,13 @@ function DashboardPage() {
     try {
       await channel.removeMembers([user.id])
       setActiveChannel(undefined)
-      router.push("/dashboard")
+      setOpenSidebar(true)
+      console.log("Channel left")
+      // router.push("/dashboard")
     } catch (error) {
       console.error("Error leaving chat:", error)
     } finally {
       setOpen(false)
-      setOpenSidebar(true)
     }
   }
 

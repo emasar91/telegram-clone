@@ -27,16 +27,26 @@ export const CallNotificationProvider = ({
     api.calls.getLastCallByUser,
     user?.id ? { userId: user.id } : "skip",
   )
+  console.log("🚀 ~ lastCall:", lastCall)
 
   const updateStatus = useMutation(api.calls.updateCallStatus)
 
   // Ref para evitar duplicar Toasts al re-renderizar
   const lastProcessedCall = useRef<string | null>(null)
-  console.log("🚀 ~ lastCall:", lastCall)
 
   // --- LÓGICA DE TOASTS ---
   useEffect(() => {
     if (!lastCall) return
+
+    // 1. CONTROL DE TIEMPO:
+    // Si la llamada tiene más de 60 segundos (60000 ms), la ignoramos.
+    const ahora = Date.now()
+    const esLlamadaAntigua = ahora - lastCall._creationTime > 60000
+
+    if (esLlamadaAntigua) {
+      console.log("Ignorando toast: Llamada antigua detectada")
+      return
+    }
 
     // Generamos una llave única por ID de llamada y estado
     const callKey = `${lastCall._id}-${lastCall.status}`
