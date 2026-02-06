@@ -26,7 +26,11 @@ export default defineSchema({
     streamCallId: v.string(), // ID para conectar con Stream Video
     type: v.union(v.literal("audio"), v.literal("video")), // Para saber qué UI mostrar
   })
-    // Índice para que el receptor escuche llamadas entrantes (Tu idea original)
+    // Índice para obtener la última llamada de un usuario (sea emisor o receptor)
+    .index("by_caller", ["callerId"])
+    // Índice para que el receptor escuche llamadas entrantes
+    .index("by_callee", ["calleeId"])
+    // Índice para que el receptor escuche llamadas entrantes
     .index("by_callee_status", ["calleeId", "status"])
     // Índice para que el emisor pueda monitorear si le aceptaron la llamada
     .index("by_caller_status", ["callerId", "status"])

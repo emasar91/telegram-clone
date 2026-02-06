@@ -52,26 +52,27 @@ export default function CallLayout({ children }: Props) {
   const updateStatus = useMutation(api.calls.updateCallStatus)
 
   // --- 1. LÓGICA DE TIMEOUT (Para el emisor) ---
-  // const CALL_TIMEOUT_MS = 10000 // 10 segundos para pruebas
+  const CALL_TIMEOUT_MS = 10000 // 10 segundos para pruebas
 
-  // useEffect(() => {
-  //   if (
-  //     !convexCall ||
-  //     convexCall.status !== "calling" ||
-  //     user?.id !== convexCall.callerId
-  //   )
-  //     return
+  useEffect(() => {
+    if (
+      !convexCall ||
+      convexCall.status !== "calling" ||
+      user?.id !== convexCall.callerId
+    )
+      return
 
-  //   const timeoutId = setTimeout(async () => {
-  //     console.log("La llamada expiró por falta de respuesta")
-  //     await updateStatus({
-  //       callId: convexCall._id,
-  //       status: "missed",
-  //     })
-  //   }, CALL_TIMEOUT_MS)
+    const timeoutId = setTimeout(async () => {
+      console.log("La llamada expiró por falta de respuesta")
+      await updateStatus({
+        callId: convexCall._id,
+        status: "missed",
+      })
+    }, CALL_TIMEOUT_MS)
 
-  //   return () => clearTimeout(timeoutId)
-  // }, [convexCall?.status, convexCall?._id, user?.id, updateStatus])
+    return () => clearTimeout(timeoutId)
+    //eslint-disable-next-line
+  }, [convexCall?.status, convexCall?._id, user?.id, updateStatus])
 
   // --- 2. CONFIGURACIÓN STREAM USER & CLIENT ---
   const streamUser = useMemo(() => {
@@ -311,7 +312,11 @@ export default function CallLayout({ children }: Props) {
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-slate-900">
-      <LoadingSpinner size="lg" />
+      <LoadingSpinner
+        size="lg"
+        message={t("loadingCall")}
+        className="text-white"
+      />
     </div>
   )
 }

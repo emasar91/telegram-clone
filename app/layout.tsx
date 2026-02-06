@@ -5,6 +5,7 @@ import IntlProvider from "@/providers/IntlProvider"
 import localFont from "next/font/local"
 import ClerkProviderClient from "@/providers/ClerkProvider"
 import { SidebarProvider } from "@/providers/SidebarProvider"
+import NotificationContainer from "@/components/NotificationCenter"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://emasar-telegram-clone.vercel.app"),
@@ -55,7 +56,10 @@ export default function RootLayout({
         <IntlProvider>
           <ClerkProviderClient>
             <ConvexClientProvider>
-              <SidebarProvider>{children}</SidebarProvider>
+              <SidebarProvider>
+                {children}
+                <NotificationContainer />
+              </SidebarProvider>
             </ConvexClientProvider>
           </ClerkProviderClient>
         </IntlProvider>

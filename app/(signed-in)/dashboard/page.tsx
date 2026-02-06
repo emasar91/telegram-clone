@@ -94,7 +94,7 @@ function DashboardPage() {
         callerId: user.id,
         calleeId: calleeId,
         callerName: user.fullName || user.firstName || "Usuario",
-        receptorCallName: receptorCallName,
+        receptorCallName: receptorCallName!,
         streamCallId: streamCallId,
         type: "video", // Puedes parametrizar esto si quieres audio/video
       })

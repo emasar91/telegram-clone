@@ -65,3 +65,29 @@ export const getCallByStreamId = query({
       .unique()
   },
 })
+
+export const getLastCallByUser = query({
+  args: { userId: v.string() },
+  handler: async (ctx, args) => {
+    // Usamos el índice simple "by_caller"
+    const callerCall = await ctx.db
+      .query("calls")
+      .withIndex("by_caller", (q) => q.eq("callerId", args.userId))
+      .order("desc")
+      .first()
+
+    // Usamos el índice simple "by_callee"
+    const calleeCall = await ctx.db
+      .query("calls")
+      .withIndex("by_callee", (q) => q.eq("calleeId", args.userId))
+      .order("desc")
+      .first()
+
+    if (!callerCall) return calleeCall
+    if (!calleeCall) return callerCall
+
+    return callerCall._creationTime > calleeCall._creationTime
+      ? callerCall
+      : calleeCall
+  },
+})
