@@ -26,7 +26,6 @@ function CallPage() {
       <div className="flex items-center justify-center h-full ">
         <StatusCard
           title={t("callLeaving")}
-          description="You are leaving the call"
           className="bg-gray-50 rounded-lg pb-4 text-black"
         >
           <LoadingSpinner size="lg" className="mb-0" />
@@ -54,7 +53,7 @@ function CallPage() {
       <StatusCard
         title={t("reconnecting")}
         description={t("connectionLost")}
-        className="bg-yellow-50 rounded-lg border-yellow-200"
+        className="bg-yellow-50 rounded-lg border-yellow-200 text-black"
       >
         <div className="animate-pulse rounded-full h-12 w-12 bg-yellow-400 mx-auto" />
       </StatusCard>

@@ -106,7 +106,10 @@
     "othersWillJoin": "Otros podrán unirse usando este enlace",
     "callingTo": "Llamando a: {name}",
     "cancelCall": "Cancelar llamada",
-    "waitingForResponse": "Esperando respuesta"
+    "waitingForResponse": "Esperando respuesta",
+    "goBack": "Ir a Inicio",
+    "waitingForParticipant": "Esperando participante",
+    "waitingForParticipantDescription": "Llamando a {name}..."
   },
   "user": {
     "unknown": "Usuario Desconocido",

@@ -27,7 +27,6 @@ export const CallNotificationProvider = ({
     api.calls.getLastCallByUser,
     user?.id ? { userId: user.id } : "skip",
   )
-  console.log("🚀 ~ lastCall:", lastCall)
 
   const updateStatus = useMutation(api.calls.updateCallStatus)
 
@@ -41,10 +40,9 @@ export const CallNotificationProvider = ({
     // 1. CONTROL DE TIEMPO:
     // Si la llamada tiene más de 60 segundos (60000 ms), la ignoramos.
     const ahora = Date.now()
-    const esLlamadaAntigua = ahora - lastCall._creationTime > 60000
+    const isOldCall = ahora - lastCall._creationTime > 60000
 
-    if (esLlamadaAntigua) {
-      console.log("Ignorando toast: Llamada antigua detectada")
+    if (isOldCall) {
       return
     }
 

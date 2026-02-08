@@ -9,6 +9,7 @@ import {
   StreamVideo,
   StreamVideoClient,
   useCall,
+  useCallStateHooks,
 } from "@stream-io/video-react-sdk"
 import { useParams, useRouter } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -43,6 +44,7 @@ export default function CallLayout({ children }: Props) {
   const [call, setCall] = useState<Call | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [client, setClient] = useState<StreamVideoClient | null>(null)
+  const [participantCount, setParticipantCount] = useState(0)
 
   // --- CONVEX DATA ---
   const convexCall = useQuery(
@@ -271,6 +273,7 @@ export default function CallLayout({ children }: Props) {
     )
   }
 
+  console.log("🚀 ~ convexCall.status:", convexCall.status)
   if (convexCall.status === "calling") {
     setOpenSidebar(false)
     return (
@@ -303,7 +306,38 @@ export default function CallLayout({ children }: Props) {
       <StreamVideo client={client}>
         <StreamTheme className="text-white">
           <StreamCall call={call}>
-            <CallStateWatcher convexCallId={convexCall._id} />
+            <CallStateWatcher
+              convexCallId={convexCall._id}
+              onParticipantsChange={setParticipantCount}
+            />
+            {participantCount === 1 && convexCall.status === "accepted" && (
+              <div className="fixed inset-0 z-999 flex flex-col items-center justify-center bg-slate-900/90 backdrop-blur-md w-full h-full ">
+                <div className="flex flex-col items-center p-8 bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 max-w-3xl max-h-[300px]">
+                  <div className="relative w-24 h-24 mb-6">
+                    <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-25"></div>
+                    <div className="relative flex items-center justify-center w-24 h-24 bg-blue-600 rounded-full">
+                      <Video className="w-10 h-10 text-white animate-pulse" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {t("waitingForParticipant")}
+                  </h3>
+                  <p className="text-slate-400 text-center max-w-[250px]">
+                    {t("waitingForParticipantDescription", {
+                      name: convexCall.receptorCallName,
+                    })}
+                  </p>
+
+                  <Button
+                    variant="destructive"
+                    className="mt-8 rounded-full h-auto! cursor-pointer"
+                    onClick={handleCancelCall}
+                  >
+                    <PhoneOff className="mr-2 w-4 h-4" /> {t("cancelCall")}
+                  </Button>
+                </div>
+              </div>
+            )}
             {children}
           </StreamCall>
         </StreamTheme>
@@ -312,19 +346,32 @@ export default function CallLayout({ children }: Props) {
   }
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-slate-900">
-      <LoadingSpinner
-        size="lg"
-        message={t("loadingCall")}
-        className="text-white"
-      />
+    <div className="flex w-full items-center justify-center bg-slate-900">
+      <StatusCard
+        title={t("joiningCall")}
+        className="bg-gray-50 rounded-lg pb-4 text-black h-full"
+      >
+        <LoadingSpinner message={t("loadingCall")} size="lg" className="mb-0" />
+      </StatusCard>
     </div>
   )
 }
 
-function CallStateWatcher({ convexCallId }: { convexCallId: Id<"calls"> }) {
+function CallStateWatcher({
+  convexCallId,
+  onParticipantsChange,
+}: {
+  convexCallId: Id<"calls">
+  onParticipantsChange: (count: number) => void
+}) {
   const call = useCall()
+  const { useParticipants } = useCallStateHooks()
+  const participants = useParticipants()
   const updateStatus = useMutation(api.calls.updateCallStatus)
+
+  useEffect(() => {
+    onParticipantsChange(participants.length)
+  }, [participants.length, onParticipantsChange])
 
   useEffect(() => {
     if (!call) return

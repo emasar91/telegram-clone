@@ -106,7 +106,10 @@
     "othersWillJoin": "Others will be able to join using this link",
     "callingTo": "Calling to: {name}",
     "cancelCall": "Cancel call",
-    "waitingForResponse": "Waiting for response"
+    "waitingForResponse": "Waiting for response",
+    "goBack": "Go Home",
+    "waitingForParticipant": "Waiting for participant",
+    "waitingForParticipantDescription": "Calling to {name}..."
   },
   "user": {
     "unknown": "Unknown user",
