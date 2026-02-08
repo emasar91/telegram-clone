@@ -9,7 +9,11 @@ export default defineSchema({
     imageUrl: v.string(),
   })
     .index("by_userId", ["userId"])
-    .index("by_email", ["email"]),
+    .index("by_email", ["email"])
+    .searchIndex("search_name_email", {
+      searchField: "name",
+      filterFields: ["email"],
+    }),
 
   calls: defineTable({
     callerId: v.string(),

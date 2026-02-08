@@ -17,7 +17,10 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
 
 // --- Next.js Mocks ---
 vi.mock("next/image", () => ({
-  default: (props: any) => <img {...props} />,
+  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+    <img {...props} />
+  ),
 }))
 
 vi.mock("next/dynamic", () => ({

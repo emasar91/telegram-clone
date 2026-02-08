@@ -34,6 +34,11 @@ if (!process.env.NEXT_PUBLIC_STREAM_API_KEY) {
   throw new Error("Missing Stream API key")
 }
 
+/**
+ * Layout component for the video call feature.
+ * Handles call initialization, timeouts for missed calls, joining the Stream call,
+ * and managing Convex call status updates based on call events.
+ */
 export default function CallLayout({ children }: Props) {
   const { user } = useUser()
   const { id } = useParams()
@@ -273,7 +278,6 @@ export default function CallLayout({ children }: Props) {
     )
   }
 
-  console.log("🚀 ~ convexCall.status:", convexCall.status)
   if (convexCall.status === "calling") {
     setOpenSidebar(false)
     return (
@@ -367,6 +371,7 @@ function CallStateWatcher({
   const call = useCall()
   const { useParticipants } = useCallStateHooks()
   const participants = useParticipants()
+  console.log("🚀 ~ participants:", participants)
   const updateStatus = useMutation(api.calls.updateCallStatus)
 
   useEffect(() => {

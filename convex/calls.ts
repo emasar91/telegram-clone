@@ -1,7 +1,10 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
 
-// 1. POST: Crear la llamada (Iniciada por el emisor)
+/**
+ * Creates a new call record in the database.
+ * Initial status is set to "calling".
+ */
 export const createCall = mutation({
   args: {
     callerId: v.string(),
@@ -12,7 +15,6 @@ export const createCall = mutation({
     type: v.union(v.literal("audio"), v.literal("video")),
   },
   handler: async (ctx, args) => {
-    // Creamos el documento con estado inicial "calling"
     const callId = await ctx.db.insert("calls", {
       callerId: args.callerId,
       calleeId: args.calleeId,
@@ -26,7 +28,10 @@ export const createCall = mutation({
   },
 })
 
-// 2. GET: Escuchar llamadas entrantes (Usado por el receptor)
+/**
+ * Retrieves the current incoming call for a specific user.
+ * Returns the call only if status is "calling".
+ */
 export const getIncomingCall = query({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
@@ -35,11 +40,14 @@ export const getIncomingCall = query({
       .withIndex("by_callee_status", (q) =>
         q.eq("calleeId", args.userId).eq("status", "calling"),
       )
-      .unique() // Solo nos interesa la llamada activa actual
+      .unique()
   },
 })
 
-// 3. PATCH: Actualizar el estado (Aceptar, Rechazar, Terminar)
+/**
+ * Updates the status of a call.
+ * Possible statuses: accepted, rejected, missed, ended.
+ */
 export const updateCallStatus = mutation({
   args: {
     callId: v.id("calls"),
@@ -55,7 +63,10 @@ export const updateCallStatus = mutation({
   },
 })
 
-// 4. GET: Obtener una llamada específica por ID (Para que el emisor la monitoree)
+/**
+ * Retrieves a call by its Stream Call ID.
+ * Used for monitoring call status.
+ */
 export const getCallByStreamId = query({
   args: { streamCallId: v.string() },
   handler: async (ctx, args) => {
@@ -66,17 +77,19 @@ export const getCallByStreamId = query({
   },
 })
 
+/**
+ * Retrieves the last call for a user, either as caller or callee.
+ * Used for call history or resuming calls.
+ */
 export const getLastCallByUser = query({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
-    // Usamos el índice simple "by_caller"
     const callerCall = await ctx.db
       .query("calls")
       .withIndex("by_caller", (q) => q.eq("callerId", args.userId))
       .order("desc")
       .first()
 
-    // Usamos el índice simple "by_callee"
     const calleeCall = await ctx.db
       .query("calls")
       .withIndex("by_callee", (q) => q.eq("calleeId", args.userId))

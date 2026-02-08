@@ -29,7 +29,6 @@ import { useSidebar } from "@/providers/SidebarProvider"
 import dynamic from "next/dynamic"
 import { BOT_TELEGRAM_ID, useBotTelegramAi } from "@/hooks/useBotTelegramAi"
 
-// --- NUEVOS IMPORTS PARA CONVEX ---
 import { useMutation } from "convex/react"
 import { api } from "@/convex/_generated/api"
 
@@ -50,7 +49,6 @@ function DashboardPage() {
     (member) => member.user?.id !== user?.id,
   )[0]?.user?.name
 
-  // --- MUTATION DE CONVEX ---
   const createCall = useMutation(api.calls.createCall)
 
   useBotTelegramAi()
@@ -62,8 +60,6 @@ function DashboardPage() {
       await channel.removeMembers([user.id])
       setActiveChannel(undefined)
       setOpenSidebar(true)
-      console.log("Channel left")
-      // router.push("/dashboard")
     } catch (error) {
       console.error("Error leaving chat:", error)
     } finally {
@@ -71,39 +67,37 @@ function DashboardPage() {
     }
   }
 
-  // --- FUNCIÓN DE LLAMADA ACTUALIZADA ---
+  /**
+   * Handles the logic for initiating a video call.
+   * Identifies the callee, creates a call record in Convex, and navigates to the call page.
+   */
   const handleCall = async () => {
     if (!channel || !user) return
 
-    // 1. Identificar al receptor (el miembro del canal que no soy yo)
     const calleeId = Object.keys(channel.state.members).find(
       (id) => id !== user.id,
     )
 
     if (!calleeId) {
-      console.error("No se encontró a quién llamar")
       return
     }
 
     try {
-      // 2. Crear el ID de la llamada (usamos el ID del canal o un UUID)
       const streamCallId = `call_${channel.id}_${Date.now()}`
 
-      // 3. Registrar en Convex para que el receptor vea el Modal
       await createCall({
         callerId: user.id,
         calleeId: calleeId,
         callerName: user.fullName || user.firstName || "Usuario",
         receptorCallName: receptorCallName!,
         streamCallId: streamCallId,
-        type: "video", // Puedes parametrizar esto si quieres audio/video
+        type: "video",
       })
 
-      // 4. Ocultar sidebar y navegar a la página de la llamada
       setOpenSidebar(false)
       router.push(`/dashboard/call/${streamCallId}`)
     } catch (error) {
-      console.error("Error al iniciar la llamada en Convex:", error)
+      console.error("Error creating call:", error)
     }
   }
 

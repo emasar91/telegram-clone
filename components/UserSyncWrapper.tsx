@@ -12,6 +12,11 @@ type Props = {
   children: React.ReactNode
 }
 
+/**
+ * Component responsible for synchronizing the authenticated Clerk user
+ * with both the Convex database and the Stream Chat client.
+ * Handles the connection lifecycle and displays loading/error states.
+ */
 function UserSyncWrapper({ children }: Props) {
   const { user, isLoaded: isUserLoaded } = useUser()
   const [isLoading, setIsLoading] = useState(true)

@@ -29,21 +29,10 @@ function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex h-dvh overflow-hidden bg-background">
             <Sidebar />
 
-            {/* Contenido principal */}
             <div className="flex flex-1 flex-col overflow-hidden">
-              {/* Header */}
               <Header onToggleSidebar={toggleSidebar} />
 
-              {/* Contenido */}
-              <main
-                className="flex-1 flex overflow-y-auto justify-center h-dvh"
-                style={{
-                  backgroundImage: `url('/assets/images/pattern.svg'), linear-gradient(309deg, rgba(209, 214, 141, 1) 0%, rgba(143, 187, 141, 1) 45%, rgba(143, 187, 141, 1) 56%, rgba(209, 214, 141, 1) 100%)`,
-                  backgroundRepeat: "repeat, no-repeat",
-                  backgroundSize: "450px, cover",
-                  backgroundAttachment: "local, fixed",
-                }}
-              >
+              <main className="flex-1 flex overflow-y-auto justify-center h-dvh bg-[url('/assets/images/pattern.svg'),_linear-gradient(309deg,_rgba(209,214,141,1)_0%,_rgba(143,187,141,1)_45%,_rgba(143,187,141,1)_56%,_rgba(209,214,141,1)_100%)] bg-size-[450px,cover] bg-position-[repeat,no-repeat] bg-[local,fixed]">
                 {children}
               </main>
             </div>

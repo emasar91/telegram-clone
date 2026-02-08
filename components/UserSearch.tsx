@@ -17,6 +17,11 @@ type Props = {
   placeholder?: string
 }
 
+/**
+ * Component for searching users in the system.
+ * Displays a search input and a list of matching users.
+ * Filters out the currently authenticated user from results.
+ */
 function UserSearch({ onSelectUser, className, placeholder }: Props) {
   const { searchTerm, setSearchTerm, searchResults, isLoading } =
     useUserSearch()
